@@ -1,0 +1,58 @@
+body{
+    background-color: cadetblue;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* overflow: hidden; */
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    margin: 0;
+}
+
+.map {
+    position: relative;
+    width: 100vh; /* Largeur égale à la hauteur de l'écran */
+    height: 100vh; /* Hauteur égale à la hauteur de l'écran */
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start; /* Pour que le contenu démarre en haut */
+}
+
+.base,
+.dpt {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.base img,
+.dpt img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ajuster l'image pour qu'elle couvre tout le conteneur sans déformation */
+}
+
+/* filtres de couleurs */
+
+#dpt-01 img { /* vert */
+    filter: invert(90%) sepia(65%) saturate(732%) hue-rotate(45deg) brightness(96%) contrast(115%);
+}
+
+#dpt-02 img, #dpt-03 img, #dpt-10 img{ /* jaune vert */
+    filter: invert(90%) sepia(92%) saturate(515%) hue-rotate(17deg) brightness(101%) contrast(107%);
+}
+
+#dpt-04 img, #dpt-05 img, #dpt-06 img, #dpt-07 img { /* orange */
+    filter: invert(62%) sepia(94%) saturate(351%) hue-rotate(348deg) brightness(104%) contrast(103%);
+}
+
+#dpt-08 img, #dpt-09 img { /* rouge */
+    filter: invert(38%) sepia(55%) saturate(5668%) hue-rotate(340deg) brightness(107%) contrast(102%);
+}
