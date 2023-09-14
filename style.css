@@ -14,7 +14,8 @@ body{
 }
 
 .prompt__content__title h1{
-  margin-bottom: -20px;
+  margin-bottom: -25px;
+  font-size: 4em;
 }
 
 .map {
@@ -46,25 +47,30 @@ body{
 
 #input{
   padding: 6px;
-     font-size: 14px;
-     border-width: 4px;
-     border-color: #2E8743;
-     background-color: #FFFFFF;
-     color: #000000;
-     border-style: solid;
-     border-radius: 13px;
-     box-shadow: 0px 0px 0px rgba(66,66,66,.75);
-     text-shadow: 0px 0px 0px rgba(66,66,66,.0);
-     box-shadow: #53FF38 inset 0px 0px 15px;
-     transition: 
-      box-shadow 0.15s ease-in-out,
-      border-color 0.15s ease-in-out;
+  width: 90%;
+  font-size: 14px;
+  border-width: 4px;
+  border-color: #2E8743;
+  background-color: #FFFFFF;
+  color: #000000;
+  border-style: solid;
+  border-radius: 13px;
+  box-shadow: 0px 0px 0px rgba(66,66,66,.75);
+  text-shadow: 0px 0px 0px rgba(66,66,66,.0);
+  box-shadow: #53FF38 inset 0px 0px 15px;
+  transition: 
+  box-shadow 0.15s ease-in-out,
+  border-color 0.15s ease-in-out;
 }
 
 #input:focus{
   border-color: #FF9348;
   box-shadow: #FFB63E inset 0px 0px 15px;
   outline: none;
+}
+
+#compteur{
+  font-size: 2em;
 }
 
 .user__inputs{

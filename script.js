@@ -89,7 +89,7 @@ function colorDepartement(target, prompt) {
       `;
       document.querySelector('.map').innerHTML += html;
       html = `
-      <div class="user__inputs__content" style="border-color: #2E8743; color: #2E8743; box-shadow: #53FF38 inset 0px 0px 15px;">
+      <div class="user__inputs__content" style="border-color: #2E8743; color: #2E8743; box-shadow: #53FF38 inset 0px 0px 15px; font-size: 1.2em;">
                     <p>${promptDpt.numero} - ${promptDpt.nom}</p>
       </div>
       `;
@@ -117,7 +117,7 @@ function colorDepartement(target, prompt) {
         `;
         document.querySelector('.map').innerHTML += html;
         html = `
-        <div class="user__inputs__content" style="border-color: #aedf0e; color: #87ad0b; box-shadow: #D3FF43 inset 0px 0px 15px;">
+        <div class="user__inputs__content" style="border-color: #aedf0e; color: #87ad0b; box-shadow: #D3FF43 inset 0px 0px 15px; font-size: 1.2em;">
                       <p>${promptDpt.numero} - ${promptDpt.nom}</p>
         </div>
         `;
@@ -130,7 +130,7 @@ function colorDepartement(target, prompt) {
         `;
         document.querySelector('.map').innerHTML += html;
         html = `
-        <div class="user__inputs__content" style="border-color: #FF9348; color: #FF9348; box-shadow: #FFB63E inset 0px 0px 15px;">
+        <div class="user__inputs__content" style="border-color: #FF9348; color: #FF9348; box-shadow: #FFB63E inset 0px 0px 15px; font-size: 1.2em;">
         <p>${promptDpt.numero} - ${promptDpt.nom}</p> 
         </div>
         `;
@@ -143,7 +143,7 @@ function colorDepartement(target, prompt) {
           `;
           document.querySelector('.map').innerHTML += html;
           html = `
-          <div class="user__inputs__content" style="border-color: #FF3D3D; color: #7e0000; box-shadow: #FF3D3D inset 0px 0px 15px;">
+          <div class="user__inputs__content" style="border-color: #FF3D3D; color: #7e0000; box-shadow: #FF3D3D inset 0px 0px 15px; font-size: 1.2em;">
           <p>${promptDpt.numero} - ${promptDpt.nom}</p> 
           </div>
           `;
