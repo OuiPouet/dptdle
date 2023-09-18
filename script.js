@@ -1,18 +1,80 @@
+const userPicks = [];
+// const target = generateDepartement();
+const target = "01"; // Ligne de test
+
+//Gestion des cookies
+if(getCookie("Account") == false){
+  var userPicksJson = JSON.stringify(userPicks);
+  userPicksJson = btoa(userPicksJson);
+  document.cookie = "Account="+userPicksJson+"; expires=Thu, 01 jan 2030 12:00:00 UTC; path=/";
+} else {
+  var data = getCookie("Account");
+  data = atob(data);
+  var account = JSON.parse(data);
+  var accountAverage = 0;
+  account.forEach(element => {
+    accountAverage += element;
+  });
+  accountAverage = accountAverage/account.length;
+  console.log(accountAverage);
+  document.querySelector('#account-average').innerHTML = "Moyenne : "+accountAverage.toFixed(2)+" essais";
+}
+if(getCookie("TodaysGame") == false){
+  var userPicksJson = JSON.stringify(userPicks);
+  userPicksJson = btoa(userPicksJson);
+  var midnight = new Date();
+  midnight.setHours(23,59,59,999);
+  midnight = midnight.toUTCString();
+  document.cookie = "TodaysGame="+userPicksJson+"; expires="+midnight+"; path=/";
+} else {
+  var data = getCookie("TodaysGame");
+  data = atob(data);
+  const userPicksCookie = JSON.parse(data);
+  userPicksCookie.forEach(element => {
+    colorDepartement(target, element);
+    userPicks.push(element);
+  });
+  document.querySelector('#compteur').innerHTML = "Essai n°"+(userPicks.length+1);
+}
+if(getCookie("isWin") == "true"){
+  document.querySelector('#win').innerHTML = "Vous avez déjà trouvé le département du jour !";
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   console.log('Bonjour monde Departementdle !');
-  const target = generateDepartement();
-  // const target = "01"; // Ligne de test
-  const input = document.querySelector('#input');
-  const userPicks = [];
   
+
+  const input = document.querySelector('#input');
+  
+  // Affichage du departement cible - jeu principal
   input.addEventListener('keydown', (event) => {
     if (event.key === "Enter") {
       const prompt = formatName(input.value);
+      if(prompt == "/surtom"){
+        location.href = "https://surtom.yvelin.net/"
+        return;
+      }
+      if(prompt == "/kebab"){
+        location.href = "https://www.ubereats.com/fr/store/kebab-cafe/lgSnlT_LVXKZaotcElqzDA/6de1732f-e248-5aac-a7e9-a7a5b9a214c9/0379a62a-1156-4ddb-a09a-7e1dc45d5dfb/9eae2a3e-8471-5528-81c2-aa4a398fcec8"
+        return;
+      }
       departementValidator(prompt).then((res) => {
         if (res != false) { // Si le departement existe 
+          if(getCookie("isWin") == "true"){
+            input.classList.add('invalid');
+            input.value = "";
+            input.placeholder = "Vous avez déjà trouvé le département du jour !";
+            setTimeout(() => {
+              input.classList.remove('invalid');
+              input.placeholder = "Entrez un département";
+            }, 700);
+            return;
+          }
           if(!userPicks.includes(res)){ // Si le departement n'a pas déjà été choisi
             userPicks.push(res);
-            document.querySelector('#compteur').innerHTML = "Essai n°"+userPicks.length;
+            var userPicksJson = JSON.stringify(userPicks);
+            userPicksJson = btoa(userPicksJson);
+            document.cookie = "TodaysGame="+userPicksJson+"; expires="+midnight+"; path=/";
             colorDepartement(target, res);
             input.classList.add('valid');
             setTimeout(() => {
@@ -36,7 +98,53 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
   });
+
+  // Affichage de l'interface d'aide
+  document.querySelector('#question').addEventListener('click', () => {
+    document.querySelector('.prompt').style.transition = "filter 0s";
+    document.querySelector('.map').style.transition = "filter 0s";
+    document.querySelector('.help').style.visibility = "visible";
+    document.querySelector('.prompt').style.filter = "blur(5px)";
+    document.querySelector('.map').style.filter = "blur(5px)";
+    document.querySelector('.help').style.top = "50%";
+  });
+  document.querySelector('#cross-help').addEventListener('click', () => {
+    document.querySelector('.prompt').style.transition = "filter 0.15s";
+    document.querySelector('.map').style.transition = "filter 0.1s";
+    document.querySelector('.help').style.visibility = "hidden";
+    document.querySelector('.prompt').style.filter = "blur(0)";
+    document.querySelector('.map').style.filter = "blur(0)";
+    document.querySelector('.help').style.top = "-50%";
+  });
+
+  // Affichage de l'interface de compte
+  document.querySelector('#user').addEventListener('click', () => {
+    document.querySelector('.prompt').style.transition = "filter 0s";
+    document.querySelector('.map').style.transition = "filter 0s";
+    document.querySelector('.account').style.visibility = "visible";
+    document.querySelector('.prompt').style.filter = "blur(5px)";
+    document.querySelector('.map').style.filter = "blur(5px)";
+    document.querySelector('.account').style.top = "50%";
+  });
+  document.querySelector('#cross-account').addEventListener('click', () => {
+    document.querySelector('.prompt').style.transition = "filter 0.15s";
+    document.querySelector('.map').style.transition = "filter 0.1s";
+    document.querySelector('.account').style.visibility = "hidden";
+    document.querySelector('.prompt').style.filter = "blur(0)";
+    document.querySelector('.map').style.filter = "blur(0)";
+    document.querySelector('.account').style.top = "-50%";
+  });
   
+  // Fermeture de l'affichage des résultats
+  document.querySelector('#cross-results').addEventListener('click', () => {
+    document.querySelector('.prompt').style.transition = "filter 0.15s";
+    document.querySelector('.map').style.transition = "filter 0.1s";
+    document.querySelector('.results').style.visibility = "hidden";
+    document.querySelector('.prompt').style.filter = "blur(0)";
+    document.querySelector('.map').style.filter = "blur(0)";
+    document.querySelector('.results').style.top = "-50%";
+
+  });
   
 });
 
@@ -82,18 +190,43 @@ function colorDepartement(target, prompt) {
   .then(promptDpt => {
     return getDepartement(target).then(targetDpt => {
       if (promptDpt.numero === targetDpt.numero) { /* Vert */
-      var html = `
-      <div class="dpt" id="${promptDpt.numero}">
-      <img src="./img/${promptDpt.numero}.png" alt="${promptDpt.numero}" style="filter: invert(90%) sepia(65%) saturate(732%) hue-rotate(45deg) brightness(96%) contrast(115%);">
-      </div>
-      `;
-      document.querySelector('.map').innerHTML += html;
-      html = `
+      document.querySelector('#dep-'+promptDpt.numero).style.fill = "#53FF38";
+      const html = `
       <div class="user__inputs__content" style="border-color: #2E8743; color: #2E8743; box-shadow: #53FF38 inset 0px 0px 15px; font-size: 1.2em;">
                     <p>${promptDpt.numero} - ${promptDpt.nom}</p>
       </div>
       `;
       document.querySelector('.user__inputs').innerHTML = html + document.querySelector('.user__inputs').innerHTML;
+      document.querySelector('#win').innerHTML = "Vous avez déjà trouvé le département du jour !";
+
+      //Mise en place du texte dans le résultat
+      document.querySelector('#results-text').innerHTML = "Vous avez trouvé <em><strong>" + targetDpt.nom + "</strong></em> en <em><strong>" + userPicks.length + "</strong></em> essais !";
+
+      //Mise du résultat dans le cookie et actualisation de la moyenne
+      var data = getCookie("Account");
+      data = atob(data);
+      const account = JSON.parse(data);
+      account.push(userPicks.length);
+      var accountAverage = 0;
+      account.forEach(element => {
+        accountAverage += element;
+      });
+      accountAverage = accountAverage/account.length;
+      console.log(accountAverage);
+      document.querySelector('#account-average').innerHTML = "Moyenne : <em><strong>"+accountAverage.toFixed(2)+"</em></strong> essais";
+      var userPicksJson = JSON.stringify(account);
+      userPicksJson = btoa(userPicksJson);
+      document.cookie = "Account="+userPicksJson+"; expires=Thu, 01 jan 2030 12:00:00 UTC; path=/";
+
+      //Victoire dans le cookie pour que l'animation de confetis ne se lance qu'une fois
+      if(getCookie("isWin") == "true"){
+        return;
+      } else {
+      var midnight = new Date();
+      midnight.setHours(23,59,59,999);
+      midnight = midnight.toUTCString();
+      document.cookie = "isWin=true; expires="+midnight+"; path=/";
+
       wait(100).then(() => {
         conffetiLaunch();
         wait(500).then(() => {
@@ -104,45 +237,42 @@ function colorDepartement(target, prompt) {
               conffetiLaunch();
               wait(400).then(() => {
                 conffetiLaunch();
+                wait(1000).then(() => {
+                  document.querySelector('.prompt').style.transition = "filter 0s";
+                  document.querySelector('.map').style.transition = "filter 0s";
+                  document.querySelector('.results').style.visibility = "visible";
+                  document.querySelector('.prompt').style.filter = "blur(5px)";
+                  document.querySelector('.map').style.filter = "blur(5px)";
+                  document.querySelector('.results').style.top = "50%";
+                });
               });
             });
           });
         });
       });
+      }
     } else if (targetDpt.limitrophes.includes(promptDpt.numero)) { /* Jaune */
-    var html = `
-        <div class="dpt" id="${promptDpt.numero}">
-        <img src="./img/${promptDpt.numero}.png" alt="${promptDpt.numero}" style="filter: invert(90%) sepia(92%) saturate(515%) hue-rotate(17deg) brightness(101%) contrast(107%);">
-        </div>
-        `;
-        document.querySelector('.map').innerHTML += html;
-        html = `
-        <div class="user__inputs__content" style="border-color: #aedf0e; color: #87ad0b; box-shadow: #D3FF43 inset 0px 0px 15px; font-size: 1.2em;">
-                      <p>${promptDpt.numero} - ${promptDpt.nom}</p>
-        </div>
-        `;
-        document.querySelector('.user__inputs').innerHTML = html + document.querySelector('.user__inputs').innerHTML;
-      } else if (targetDpt.limitrophes2.includes(promptDpt.numero)) { /* Orange */
-        var html = `
-        <div class="dpt" id="${promptDpt.numero}">
-        <img src="./img/${promptDpt.numero}.png" alt="${promptDpt.numero}" style="filter: invert(62%) sepia(94%) saturate(351%) hue-rotate(348deg) brightness(104%) contrast(103%);">
-        </div>
-        `;
-        document.querySelector('.map').innerHTML += html;
-        html = `
-        <div class="user__inputs__content" style="border-color: #FF9348; color: #FF9348; box-shadow: #FFB63E inset 0px 0px 15px; font-size: 1.2em;">
-        <p>${promptDpt.numero} - ${promptDpt.nom}</p> 
-        </div>
-        `;
-        document.querySelector('.user__inputs').innerHTML = html + document.querySelector('.user__inputs').innerHTML;
-        } else { /* Rouge */
-          var html = `
-          <div class="dpt" id="${promptDpt.numero}">
-          <img src="./img/${promptDpt.numero}.png" alt="${promptDpt.numero}" style="filter: invert(38%) sepia(55%) saturate(5668%) hue-rotate(340deg) brightness(107%) contrast(102%);">
-          </div>
-          `;
-          document.querySelector('.map').innerHTML += html;
-          html = `
+      document.querySelector('#compteur').innerHTML = "Essai n°"+(userPicks.length+1);
+      document.querySelector('#dep-'+promptDpt.numero).style.fill = "#D3FF43";
+      const html = `
+      <div class="user__inputs__content" style="border-color: #aedf0e; color: #87ad0b; box-shadow: #D3FF43 inset 0px 0px 15px; font-size: 1.2em;">
+      <p>${promptDpt.numero} - ${promptDpt.nom}</p>
+      </div>
+      `;
+      document.querySelector('.user__inputs').innerHTML = html + document.querySelector('.user__inputs').innerHTML;
+    } else if (targetDpt.limitrophes2.includes(promptDpt.numero)) { /* Orange */
+      document.querySelector('#compteur').innerHTML = "Essai n°"+(userPicks.length+1);
+      document.querySelector('#dep-'+promptDpt.numero).style.fill = "#FFB63E";
+      const html = `
+      <div class="user__inputs__content" style="border-color: #FF9348; color: #FF9348; box-shadow: #FFB63E inset 0px 0px 15px; font-size: 1.2em;">
+      <p>${promptDpt.numero} - ${promptDpt.nom}</p> 
+      </div>
+      `;
+      document.querySelector('.user__inputs').innerHTML = html + document.querySelector('.user__inputs').innerHTML;
+    } else { /* Rouge */
+      document.querySelector('#compteur').innerHTML = "Essai n°"+(userPicks.length+1);
+      document.querySelector('#dep-'+promptDpt.numero).style.fill = "#FF3D3D";
+      const html = `
           <div class="user__inputs__content" style="border-color: #FF3D3D; color: #7e0000; box-shadow: #FF3D3D inset 0px 0px 15px; font-size: 1.2em;">
           <p>${promptDpt.numero} - ${promptDpt.nom}</p> 
           </div>
@@ -277,4 +407,20 @@ function conffetiLaunch(){
         }).catch((err) => {
           console.error(err);
         });
+}
+
+function share() {
+  navigator.clipboard.writeText("J'ai trouvé le département du jour en " + userPicks.length + " essais !\nhttps://ouipouet.tech/");
+  alert("Copié !");
+}
+
+function getCookie(value){
+  var cookies = document.cookie.split(';');
+  for(var i = 0; i < cookies.length; i++){
+      var cookie = cookies[i].split('=');
+      if(cookie[0].trim() == value){
+          return cookie[1];
+      }
+  }
+  return false;
 }

@@ -960,56 +960,6 @@
             "superficie":1246,
             "limitrophes":[],
             "limitrophes2":[]
-        },
-        "971":{
-            "nom":"Guadeloupe",
-            "numero":"971",
-            "region":"Guadeloupe",
-            "prefecture":"Basse-Terre",
-            "population":395725,
-            "superficie":1628,
-            "limitrophes":[],
-            "limitrophes2":[]
-        },
-        "972":{
-            "nom":"Martinique",
-            "numero":"972",
-            "region":"Martinique",
-            "prefecture":"Fort-de-France",
-            "population":371246,
-            "superficie":1080,
-            "limitrophes":[],
-            "limitrophes2":[]
-        },
-        "973":{
-            "nom":"Guyane",
-            "numero":"973",
-            "region":"Guyane",
-            "prefecture":"Cayenne",
-            "population":290691,
-            "superficie":83534,
-            "limitrophes":[],
-            "limitrophes2":[]
-        },
-        "974":{
-            "nom":"La Réunion",
-            "numero":"974",
-            "region":"La Réunion",
-            "prefecture":"Saint-Denis",
-            "population":859959,
-            "superficie":2504,
-            "limitrophes":[],
-            "limitrophes2":[]
-        },
-        "976":{
-            "nom":"Mayotte",
-            "numero":"976",
-            "region":"Mayotte",
-            "prefecture":"Mamoudzou",
-            "population":256518,
-            "superficie":374,
-            "limitrophes":[],
-            "limitrophes2":[]
         }
     }
 }

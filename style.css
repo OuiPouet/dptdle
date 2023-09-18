@@ -4,13 +4,53 @@ body{
     left: 0;
     width: 100%;
     height: 100%;
-    /* overflow: hidden; */
+    overflow: hidden;
     display: flex;
     flex-direction: row;
     justify-content: end;
     margin: 0;
     font-family: 'Poppins', sans-serif;
     gap: 20px;
+}
+
+.prompt, .map{
+    transition: filter .1s linear;
+}
+
+@media screen and (max-width: 1024px){
+  body{
+    top: 0px !important;
+    flex-direction: column-reverse;
+    justify-content: start; 
+    align-items: center;
+    overflow: hidden;
+  }
+
+  .map{
+    width: 100vw !important;
+    height: 100vw !important;
+  }
+
+  .prompt{
+    width: 90vw;
+    height: auto;
+  }
+
+  .prompt__content__title h1{
+    margin-bottom: -25px;
+    font-size: 10vw !important;
+  }
+
+  .user__inputs{
+    max-height: 140px !important;
+    margin-top: -20px;
+  }
+
+  .help, .account, .results{
+    width: 80% !important;
+    height: 70% !important;
+    overflow: auto;
+  }
 }
 
 .prompt__content__title h1{
@@ -22,28 +62,18 @@ body{
     position: relative;
     width: 100vh; /* Largeur égale à la hauteur de l'écran */
     height: 100vh; /* Hauteur égale à la hauteur de l'écran */
-    overflow: hidden;
+    overflow: visible;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start; /* Pour que le contenu démarre en haut */
+    justify-content: flex-start; /*Pour que le contenu démarre en haut */
 }
 
-.base,
-.dpt {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+.map svg{
+  width: 100%;
+  height: 100%;
 }
 
-.base img,
-.dpt img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* Ajuster l'image pour qu'elle couvre tout le conteneur sans déformation */
-}
 
 #input{
   padding: 6px;
@@ -71,6 +101,22 @@ body{
 
 #compteur{
   font-size: 2em;
+}
+
+.user__inputs__title{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+}
+
+#question, #user{
+  width: 45px;
+  height: 45px;
+}
+
+#question:hover, #user:hover{
+  cursor: pointer;
 }
 
 .user__inputs{
@@ -106,6 +152,50 @@ canvas {
   width: 100%;
   height: 100%;
   transform: translate(-50%, -50%);
+}
+
+.help, .account, .results{
+  position: absolute;
+  top: -50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50%;
+  height: 50%;
+  background-color: #fff;
+  padding: 0 20px 20px 20px;
+  border: #a0a0a0 solid 10px;
+  border-radius: 10px;
+  visibility: hidden;
+  cursor: default;
+  box-shadow: 0px 0px 10px rgb(66,66,66);
+  transition: top .5s ease-in-out;
+  overflow: auto;
+}
+
+.results{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.results h1{
+  font-size: 2.5em;
+}
+#results-text{
+  font-size: 1.8em;
+}
+
+#account-average{
+  font-size: 2.5em;
+}
+
+.help img, .account img, .results img{
+  width: 45px;
+  height: 45px;
+  position: inherit;
+  right: 20px;
+  top: 20px;
+  cursor: pointer;
 }
 
 /* filtres de couleurs */
