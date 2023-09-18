@@ -1,6 +1,6 @@
 const userPicks = [];
-// const target = generateDepartement();
-const target = "01"; // Ligne de test
+const target = generateDepartement();
+// const target = "01"; // Ligne de test
 
 //Gestion des cookies
 if(getCookie("Account") == false){
