@@ -43,6 +43,7 @@ if(getCookie("TodaysGame") == false){
 if(getCookie("isWin") != false){
   if(atob(getCookie("isWin")) == "true"){
     document.querySelector('#win').innerHTML = "Vous avez déjà trouvé le département du jour !";
+    document.querySelector('#compteur').innerHTML = "Essai n°"+(userPicks.length);
   }
 }
 
