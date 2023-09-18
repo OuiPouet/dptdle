@@ -1,6 +1,6 @@
 const userPicks = [];
-const target = generateDepartement();
-// const target = "01"; // Ligne de test
+// const target = generateDepartement();
+const target = "01"; // Ligne de test
 
 //Gestion des cookies
 if(getCookie("Account") == false){
@@ -16,7 +16,12 @@ if(getCookie("Account") == false){
     accountAverage += element;
   });
   accountAverage = accountAverage/account.length;
-  document.querySelector('#account-average').innerHTML = "Moyenne : "+accountAverage.toFixed(2)+" essais";
+  console.log(typeof account.length === 'number');
+  if(typeof account.length === 'number'){
+    document.querySelector('#account-average').innerHTML = "Vous n'avez pas encore fini de partie...";
+  } else {
+    document.querySelector('#account-average').innerHTML = "Moyenne : "+accountAverage.toFixed(2)+" essais";
+  }
 }
 if(getCookie("TodaysGame") == false){
   var userPicksJson = JSON.stringify(userPicks);
@@ -35,8 +40,10 @@ if(getCookie("TodaysGame") == false){
   });
   document.querySelector('#compteur').innerHTML = "Essai n°"+(userPicks.length+1);
 }
-if(atob(getCookie("isWin")) == "true"){
-  document.querySelector('#win').innerHTML = "Vous avez déjà trouvé le département du jour !";
+if(getCookie("isWin") != false){
+  if(atob(getCookie("isWin")) == "true"){
+    document.querySelector('#win').innerHTML = "Vous avez déjà trouvé le département du jour !";
+  }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -58,7 +65,8 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
       departementValidator(prompt).then((res) => {
-        if (res != false) { // Si le departement existe 
+        if (res != false) { // Si le departement existe
+          if (getCookie("isWin") != false){
           if(atob(getCookie("isWin")) == "true"){
             input.classList.add('invalid');
             input.value = "";
@@ -68,7 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
               input.placeholder = "Entrez un département";
             }, 700);
             return;
-          }
+          }}
           if(!userPicks.includes(res)){ // Si le departement n'a pas déjà été choisi
             userPicks.push(res);
             var userPicksJson = JSON.stringify(userPicks);
@@ -217,6 +225,7 @@ function colorDepartement(target, prompt) {
       document.cookie = "Account="+userPicksJson+"; expires=Thu, 01 jan 2030 12:00:00 UTC; path=/";
 
       //Victoire dans le cookie pour que l'animation de confetis ne se lance qu'une fois
+      if (getCookie("isWin") != false){
       if(atob(getCookie("isWin")) == "true"){
         return;
       } else {
@@ -248,7 +257,7 @@ function colorDepartement(target, prompt) {
           });
         });
       });
-      }
+      }}
     } else if (targetDpt.limitrophes.includes(promptDpt.numero)) { /* Jaune */
       document.querySelector('#compteur').innerHTML = "Essai n°"+(userPicks.length+1);
       document.querySelector('#dep-'+promptDpt.numero).style.fill = "#D3FF43";
