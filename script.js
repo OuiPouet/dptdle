@@ -228,7 +228,7 @@ function colorDepartement(target, prompt) {
       if (getCookie("isWin") != false){
       if(atob(getCookie("isWin")) == "true"){
         return;
-      } else {
+      }} else {
       var midnight = new Date();
       midnight.setHours(23,59,59,999);
       midnight = midnight.toUTCString();
@@ -257,7 +257,7 @@ function colorDepartement(target, prompt) {
           });
         });
       });
-      }}
+      }
     } else if (targetDpt.limitrophes.includes(promptDpt.numero)) { /* Jaune */
       document.querySelector('#compteur').innerHTML = "Essai n°"+(userPicks.length+1);
       document.querySelector('#dep-'+promptDpt.numero).style.fill = "#D3FF43";
