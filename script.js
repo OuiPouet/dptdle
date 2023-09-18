@@ -1,6 +1,6 @@
 const userPicks = [];
-// const target = generateDepartement();
-const target = "01"; // Ligne de test
+const target = generateDepartement();
+// const target = "01"; // Ligne de test
 
 //Gestion des cookies
 if(getCookie("Account") == false){
@@ -16,7 +16,6 @@ if(getCookie("Account") == false){
     accountAverage += element;
   });
   accountAverage = accountAverage/account.length;
-  console.log(accountAverage);
   document.querySelector('#account-average').innerHTML = "Moyenne : "+accountAverage.toFixed(2)+" essais";
 }
 if(getCookie("TodaysGame") == false){
@@ -36,7 +35,7 @@ if(getCookie("TodaysGame") == false){
   });
   document.querySelector('#compteur').innerHTML = "Essai n°"+(userPicks.length+1);
 }
-if(getCookie("isWin") == "true"){
+if(atob(getCookie("isWin")) == "true"){
   document.querySelector('#win').innerHTML = "Vous avez déjà trouvé le département du jour !";
 }
 
@@ -60,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       departementValidator(prompt).then((res) => {
         if (res != false) { // Si le departement existe 
-          if(getCookie("isWin") == "true"){
+          if(atob(getCookie("isWin")) == "true"){
             input.classList.add('invalid');
             input.value = "";
             input.placeholder = "Vous avez déjà trouvé le département du jour !";
@@ -212,20 +211,19 @@ function colorDepartement(target, prompt) {
         accountAverage += element;
       });
       accountAverage = accountAverage/account.length;
-      console.log(accountAverage);
       document.querySelector('#account-average').innerHTML = "Moyenne : <em><strong>"+accountAverage.toFixed(2)+"</em></strong> essais";
       var userPicksJson = JSON.stringify(account);
       userPicksJson = btoa(userPicksJson);
       document.cookie = "Account="+userPicksJson+"; expires=Thu, 01 jan 2030 12:00:00 UTC; path=/";
 
       //Victoire dans le cookie pour que l'animation de confetis ne se lance qu'une fois
-      if(getCookie("isWin") == "true"){
+      if(atob(getCookie("isWin")) == "true"){
         return;
       } else {
       var midnight = new Date();
       midnight.setHours(23,59,59,999);
       midnight = midnight.toUTCString();
-      document.cookie = "isWin=true; expires="+midnight+"; path=/";
+      document.cookie = "isWin="+btoa("true")+"; expires="+midnight+"; path=/";
 
       wait(100).then(() => {
         conffetiLaunch();
