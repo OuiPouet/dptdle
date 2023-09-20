@@ -1,12 +1,49 @@
 const userPicks = [];
+var today = new Date();
+var options = { month: 'numeric', day: 'numeric', year: 'numeric' };
+today = today.toLocaleDateString('fr-FR', options);
+var hadAccount = true;
+
 const target = generateDepartement();
 // const target = "01"; // Ligne de test
 
 //Gestion des cookies
+if(getCookie("firstTime") == false){
+  document.cookie = "firstTime="+btoa("false")+"; expires=01 jan 2030 12:00:00 UTC; path=/";
+  document.querySelector('.prompt').style.transition = "filter 0s";
+  document.querySelector('.map').style.transition = "filter 0s";
+  document.querySelector('.help').style.visibility = "visible";
+  document.querySelector('.prompt').style.filter = "blur(5px)";
+  document.querySelector('.map').style.filter = "blur(5px)";
+  document.querySelector('.help').style.top = "50%";
+}
+
+if(getCookie("LastGame") == false){
+  var data = today;
+  // data = btoa(data);
+  document.cookie = "LastGame="+atob(data)+"; expires=Thu, 01 jan 2030 12:00:00 UTC; path=/";
+  document.cookie = "isWin="+btoa("false")+"; expires=01 jan 2030 12:00:00 UTC; path=/";
+} else {
+  var data = getCookie("LastGame");
+  // data = atob(data);
+  if(data != today){
+    data = today;
+    // data = btoa(data);
+    document.cookie = "LastGame="+btoa(data)+"; expires=Thu, 01 jan 2030 12:00:00 UTC; path=/";
+    var userPicksJson = JSON.stringify(userPicks);
+    userPicksJson = btoa(userPicksJson);
+    document.cookie = "TodaysGame="+userPicksJson+"; expires=01 jan 2030 12:00:00 UTC; path=/";
+    if(atob(getCookie("isWin")) == "true"){
+      document.cookie = "isWin="+btoa("false")+"; expires=01 jan 2030 12:00:00 UTC; path=/";
+    }
+    console.log("pas venu aujourd'hui");
+  }
+}
+
+
 if(getCookie("Account") == false){
-  var userPicksJson = JSON.stringify(userPicks);
-  userPicksJson = btoa(userPicksJson);
-  document.cookie = "Account="+userPicksJson+"; expires=Thu, 01 jan 2030 12:00:00 UTC; path=/";
+  hadAccount = false;
+  console.log("pas de compte");
 } else {
   var data = getCookie("Account");
   data = atob(data);
@@ -16,12 +53,8 @@ if(getCookie("Account") == false){
     accountAverage += element;
   });
   accountAverage = accountAverage/account.length;
-  console.log(typeof account.length === 'number');
-  if(typeof account.length === 'number'){
-    document.querySelector('#account-average').innerHTML = "Vous n'avez pas encore fini de partie...";
-  } else {
-    document.querySelector('#account-average').innerHTML = "Moyenne : "+accountAverage.toFixed(2)+" essais";
-  }
+  console.log(accountAverage);
+  document.querySelector('#account-average').innerHTML = "Moyenne : "+accountAverage.toFixed(2)+" essais";
 }
 if(getCookie("TodaysGame") == false){
   var userPicksJson = JSON.stringify(userPicks);
@@ -29,7 +62,7 @@ if(getCookie("TodaysGame") == false){
   var midnight = new Date();
   midnight.setHours(23,59,59,999);
   midnight = midnight.toUTCString();
-  document.cookie = "TodaysGame="+userPicksJson+"; expires="+midnight+"; path=/";
+  document.cookie = "TodaysGame="+userPicksJson+"; expires=01 jan 2030 12:00:00 UTC; path=/";
 } else {
   var data = getCookie("TodaysGame");
   data = atob(data);
@@ -210,54 +243,51 @@ function colorDepartement(target, prompt) {
       //Mise en place du texte dans le résultat
       document.querySelector('#results-text').innerHTML = "Vous avez trouvé <em><strong>" + targetDpt.nom + "</strong></em> en <em><strong>" + userPicks.length + "</strong></em> essais !";
 
-      //Mise du résultat dans le cookie et actualisation de la moyenne
-      var data = getCookie("Account");
-      data = atob(data);
-      const account = JSON.parse(data);
-      account.push(userPicks.length);
-      var accountAverage = 0;
-      account.forEach(element => {
-        accountAverage += element;
-      });
-      accountAverage = accountAverage/account.length;
-      document.querySelector('#account-average').innerHTML = "Moyenne : <em><strong>"+accountAverage.toFixed(2)+"</em></strong> essais";
-      var userPicksJson = JSON.stringify(account);
-      userPicksJson = btoa(userPicksJson);
-      document.cookie = "Account="+userPicksJson+"; expires=Thu, 01 jan 2030 12:00:00 UTC; path=/";
+      
 
-      //Victoire dans le cookie pour que l'animation de confetis ne se lance qu'une fois
-      if (getCookie("isWin") != false){
-      if(atob(getCookie("isWin")) == "true"){
-        return;
-      }} else {
-      var midnight = new Date();
-      midnight.setHours(23,59,59,999);
-      midnight = midnight.toUTCString();
-      document.cookie = "isWin="+btoa("true")+"; expires="+midnight+"; path=/";
-
-      wait(100).then(() => {
-        conffetiLaunch();
-        wait(500).then(() => {
+      if(atob(getCookie("isWin")) == "false"){
+        document.cookie = "isWin="+btoa("true")+"; expires=01 jan 2030 12:00:00 UTC; path=/";
+        var cookieAccount = [];
+        if(hadAccount == false){
+          cookieAccount.push(userPicks.length);
+        } else {
+          var data = getCookie("Account");
+          data = atob(data);
+          cookieAccount = JSON.parse(data);
+          cookieAccount.push(userPicks.length);
+        }
+        var accountAverage = 0;
+        cookieAccount.forEach(element => {
+          accountAverage += element;
+        });
+        accountAverage = accountAverage/cookieAccount.length;
+        document.querySelector('#account-average').innerHTML = "Moyenne : "+accountAverage.toFixed(2)+" essais";
+        cookieAccount = JSON.stringify(cookieAccount);
+        cookieAccount = btoa(cookieAccount);
+        document.cookie = "Account="+cookieAccount+"; expires=Thu, 01 jan 2030 12:00:00 UTC; path=/";
+        wait(100).then(() => {
           conffetiLaunch();
-          wait(300).then(() => {
+          wait(500).then(() => {
             conffetiLaunch();
-            wait(200).then(() => {
+            wait(300).then(() => {
               conffetiLaunch();
-              wait(400).then(() => {
+              wait(200).then(() => {
                 conffetiLaunch();
-                wait(1000).then(() => {
-                  document.querySelector('.prompt').style.transition = "filter 0s";
-                  document.querySelector('.map').style.transition = "filter 0s";
-                  document.querySelector('.results').style.visibility = "visible";
-                  document.querySelector('.prompt').style.filter = "blur(5px)";
-                  document.querySelector('.map').style.filter = "blur(5px)";
-                  document.querySelector('.results').style.top = "50%";
+                wait(400).then(() => {
+                  conffetiLaunch();
+                  wait(1000).then(() => {
+                    document.querySelector('.prompt').style.transition = "filter 0s";
+                    document.querySelector('.map').style.transition = "filter 0s";
+                    document.querySelector('.results').style.visibility = "visible";
+                    document.querySelector('.prompt').style.filter = "blur(5px)";
+                    document.querySelector('.map').style.filter = "blur(5px)";
+                    document.querySelector('.results').style.top = "50%";
+                  });
                 });
               });
             });
           });
         });
-      });
       }
     } else if (targetDpt.limitrophes.includes(promptDpt.numero)) { /* Jaune */
       document.querySelector('#compteur').innerHTML = "Essai n°"+(userPicks.length+1);
