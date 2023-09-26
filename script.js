@@ -17,16 +17,17 @@ if(getCookie("firstTime") == false){
   document.querySelector('.map').style.filter = "blur(5px)";
   document.querySelector('.help').style.top = "50%";
 }
-
+console.log(getCookie("LastGame"));
 if(getCookie("LastGame") == false){
   var data = today;
   // data = btoa(data);
-  document.cookie = "LastGame="+atob(data)+"; expires=Thu, 01 jan 2030 12:00:00 UTC; path=/";
+  document.cookie = "LastGame="+btoa(data)+"; expires=Thu, 01 jan 2030 12:00:00 UTC; path=/";
   document.cookie = "isWin="+btoa("false")+"; expires=01 jan 2030 12:00:00 UTC; path=/";
 } else {
   var data = getCookie("LastGame");
   // data = atob(data);
-  if(data != today){
+  if(atob(data) != today){
+    console.log(atob(data)+" != "+today+" => reset");
     data = today;
     // data = btoa(data);
     document.cookie = "LastGame="+btoa(data)+"; expires=Thu, 01 jan 2030 12:00:00 UTC; path=/";
@@ -43,6 +44,7 @@ if(getCookie("LastGame") == false){
 
 if(getCookie("Account") == false){
   hadAccount = false;
+  document.cookie = "Account="+btoa("[]")+"; expires=Thu, 01 jan 2030 12:00:00 UTC; path=/";
   console.log("pas de compte");
 } else {
   var data = getCookie("Account");
@@ -65,6 +67,7 @@ if(getCookie("TodaysGame") == false){
   document.cookie = "TodaysGame="+userPicksJson+"; expires=01 jan 2030 12:00:00 UTC; path=/";
 } else {
   var data = getCookie("TodaysGame");
+  console.log('Manche à couille => '+data);
   data = atob(data);
   const userPicksCookie = JSON.parse(data);
   userPicksCookie.forEach(element => {
@@ -115,7 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
             userPicks.push(res);
             var userPicksJson = JSON.stringify(userPicks);
             userPicksJson = btoa(userPicksJson);
-            document.cookie = "TodaysGame="+userPicksJson+"; expires="+midnight+"; path=/";
+            document.cookie = "TodaysGame="+userPicksJson+"; expires=01 jan 2030 12:00:00 UTC; path=/";
             colorDepartement(target, res);
             input.classList.add('valid');
             setTimeout(() => {

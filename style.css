@@ -23,7 +23,6 @@ body{
     flex-direction: column-reverse;
     justify-content: start; 
     align-items: center;
-    overflow: hidden;
   }
 
   .map{
@@ -110,12 +109,12 @@ body{
   gap: 20px;
 }
 
-#question, #user{
+#question, #user, #map{
   width: 45px;
   height: 45px;
 }
 
-#question:hover, #user:hover{
+#question:hover, #user:hover, #map:hover{
   cursor: pointer;
 }
 
