@@ -9,13 +9,21 @@ const target = generateDepartement();
 
 //Gestion des cookies
 if(getCookie("firstTime") == false){
-  document.cookie = "firstTime="+btoa("false")+"; expires=01 jan 2030 12:00:00 UTC; path=/";
+  document.cookie = "firstTime="+btoa("1.2")+"; expires=01 jan 2030 12:00:00 UTC; path=/";
   document.querySelector('.prompt').style.transition = "filter 0s";
   document.querySelector('.map').style.transition = "filter 0s";
   document.querySelector('.help').style.visibility = "visible";
   document.querySelector('.prompt').style.filter = "blur(5px)";
   document.querySelector('.map').style.filter = "blur(5px)";
   document.querySelector('.help').style.top = "50%";
+}
+if(getCookie("firstTime") != btoa(1.2)){
+  console.log("reset");
+  document.cookie = "firstTime="+btoa("1.2")+"; expires=01 jan 2030 12:00:00 UTC; path=/";
+  document.cookie = "Account="+btoa("[]")+"; expires=Thu, 01 jan 2030 12:00:00 UTC; path=/";
+  document.cookie = "TodaysGame="+btoa("[]")+"; expires=01 jan 2030 12:00:00 UTC; path=/";
+  document.cookie = "LastGame="+btoa(today)+"; expires=Thu, 01 jan 2030 12:00:00 UTC; path=/";
+  document.cookie = "isWin="+btoa("false")+"; expires=01 jan 2030 12:00:00 UTC; path=/";
 }
 console.log(getCookie("LastGame"));
 if(getCookie("LastGame") == false){
@@ -97,10 +105,42 @@ document.addEventListener('DOMContentLoaded', () => {
         location.href = "https://surtom.yvelin.net/"
         return;
       }
+      if(prompt == "/thon"){
+        location.href = "https://thon.ouipouet.tech/"
+        return;
+      }
       if(prompt == "/kebab"){
         location.href = "https://www.ubereats.com/fr/store/kebab-cafe/lgSnlT_LVXKZaotcElqzDA/6de1732f-e248-5aac-a7e9-a7a5b9a214c9/0379a62a-1156-4ddb-a09a-7e1dc45d5dfb/9eae2a3e-8471-5528-81c2-aa4a398fcec8"
         return;
       }
+      if(prompt == "/help"){
+        document.querySelector('.prompt').style.transition = "filter 0s";
+        document.querySelector('.map').style.transition = "filter 0s";
+        document.querySelector('.help').style.visibility = "visible";
+        document.querySelector('.prompt').style.filter = "blur(5px)";
+        document.querySelector('.map').style.filter = "blur(5px)";
+        document.querySelector('.help').style.top = "50%";
+        return;
+      }
+      if(prompt == "/vendredi"){
+        const today = new Date();
+        if(today.getDay() == 5){
+          var vendredi = document.createElement("audio");
+          vendredi.src = "./audio/vendredi.mp3";
+          vendredi.play();
+          return;
+        } else {
+          input.classList.add('invalid');
+            input.value = "";
+            input.placeholder = "Ce n'est pas vendredi !";
+            setTimeout(() => {
+              input.classList.remove('invalid');
+              input.placeholder = "Entrez un département";
+            }, 700);
+            return;
+        }
+      }
+      
       departementValidator(prompt).then((res) => {
         if (res != false) { // Si le departement existe
           if (getCookie("isWin") != false){
@@ -178,6 +218,24 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('.map').style.filter = "blur(0)";
     document.querySelector('.account').style.top = "-50%";
   });
+
+  // Affichage de l'interface d'aide
+  document.querySelector('#cmd').addEventListener('click', () => {
+    document.querySelector('.prompt').style.transition = "filter 0s";
+    document.querySelector('.map').style.transition = "filter 0s";
+    document.querySelector('.cmd-list').style.visibility = "visible";
+    document.querySelector('.prompt').style.filter = "blur(5px)";
+    document.querySelector('.map').style.filter = "blur(5px)";
+    document.querySelector('.cmd-list').style.top = "50%";
+  });
+  document.querySelector('#cross-cmd-list').addEventListener('click', () => {
+    document.querySelector('.prompt').style.transition = "filter 0.15s";
+    document.querySelector('.map').style.transition = "filter 0.1s";
+    document.querySelector('.cmd-list').style.visibility = "hidden";
+    document.querySelector('.prompt').style.filter = "blur(0)";
+    document.querySelector('.map').style.filter = "blur(0)";
+    document.querySelector('.cmd-list').style.top = "-50%";
+  });
   
   // Fermeture de l'affichage des résultats
   document.querySelector('#cross-results').addEventListener('click', () => {
@@ -187,8 +245,9 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('.prompt').style.filter = "blur(0)";
     document.querySelector('.map').style.filter = "blur(0)";
     document.querySelector('.results').style.top = "-50%";
-
   });
+
+  
   
 });
 

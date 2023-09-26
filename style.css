@@ -45,7 +45,7 @@ body{
     margin-top: -20px;
   }
 
-  .help, .account, .results{
+  .help, .account, .results, .cmd-list{
     width: 80% !important;
     height: 70% !important;
     overflow: auto;
@@ -109,12 +109,12 @@ body{
   gap: 20px;
 }
 
-#question, #user, #map{
+#question, #user, #map, #cmd{
   width: 45px;
   height: 45px;
 }
 
-#question:hover, #user:hover, #map:hover{
+#question:hover, #user:hover, #map:hover, #cmd:hover{
   cursor: pointer;
 }
 
@@ -153,7 +153,7 @@ canvas {
   transform: translate(-50%, -50%);
 }
 
-.help, .account, .results{
+.help, .account, .results, .cmd-list{
   position: absolute;
   top: -50%;
   left: 50%;
@@ -188,7 +188,7 @@ canvas {
   font-size: 2.5em;
 }
 
-.help img, .account img, .results img{
+.help img, .account img, .results img, .cmd-list img{
   width: 45px;
   height: 45px;
   position: inherit;

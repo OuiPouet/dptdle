@@ -27,6 +27,7 @@
                 <a href="https://www.webvilles.net/cartefr/depts+noms.png" target="_blank" id="map">
                     <img src="./img/map.svg" alt="map" id="map" href="https://www.webvilles.net/cartefr/depts+noms.png" target="_blank">
                 </a>
+                <img src="./img/cmd.svg" alt="cmd" id="cmd">
             </div>
             <div class="user__inputs">
             </div>
@@ -152,6 +153,10 @@
         <p>Dans Departementdle, le département cible change tout les jours, il sera donc possible de finir une seule partie par jour.</p>
         <h3>Ma progession est elle sauvegardée ?</h3>
         <p>Oui, votre progression est sauvegardée, vous pouvez donc quitter le jeu et revenir plus tard pour continuer votre partie mais attention la partie ce rénitialise tout les jours a minuit !</p>
+        <h3>Je ne connais pas tous les départements...</h3>
+        <p>Pas de soucis ! Cliquez sur l'icone carte pour obtenir une carte avec les départements français.</p>
+        <h3>Que faire apres avoir gagné ?</h3>
+        <p>Utilisez les commandes spéciales ! Elles apparaissent lorsque vous cliquez sur l'icone invite de commande.</p>
         <h3>J'ai faim, que faire ?</h3>
         <p>Quoi de mieux qu'un bon kebab pour se revigorer apres une bonne partie de Departementdle ? Utilisez la commande <strong><em>/kebab</em></strong> pour commander un kebab.</p>
     </div>
@@ -162,6 +167,18 @@
         <p id="win">Vous n'avez pas trouvé le département du jour.</p>
         <p>Plus de datas prochainement...</p>
     </div>
+    
+    <div class="cmd-list">
+        <img src="./img/cross.svg" alt="cross" id="cross-cmd-list">
+        <h1>Liste des commandes :</h1>
+        <ul>
+            <li><strong><em>/help</em></strong> : Affiche l'aide du jeu</li>
+            <li><strong><em>/kebab</em></strong> : Commande un kebab</li>
+            <li><strong><em>/surtom</em></strong> : Tentez de trouver le mot du jour !</li>
+            <li><strong><em>/thon</em></strong> : Ski-bi dibby dib yo da dub dub</li>
+            <li><strong><em>/vendredi</em></strong> : Ne fonctionne que le vendredi</li>
+        </ul>
+    </div>
 
 
     <div class="results">
@@ -169,6 +186,7 @@
         <h1>🎉 Victoire 🎉</h1>
         <p id="results-text"></p>
         <button id="share-button" onclick="share()">Partager</button>
+        <p>Vous avez essayé les commandes spéciales ???</p>
         <p>Avez vous trouvé le mot du jour ? utilisez la commande <strong><em>/surtom</em></strong> pour tenter de le découvrir !</p>
     </div>
 
