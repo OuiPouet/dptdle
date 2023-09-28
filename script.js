@@ -140,6 +140,9 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
       }
+      if(prompt == "/ricard"){
+        location.href = "https://ricard.ouipouet.tech/";
+      }
       
       departementValidator(prompt).then((res) => {
         if (res != false) { // Si le departement existe
