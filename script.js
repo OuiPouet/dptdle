@@ -5,7 +5,7 @@ today = today.toLocaleDateString('fr-FR', options);
 var hadAccount = true;
 
 const target = generateDepartement();
-// const target = "01"; // Ligne de test
+// const target = "2A"; // Ligne de test
 
 //Gestion des cookies
 if(getCookie("firstTime") == false){
@@ -18,14 +18,12 @@ if(getCookie("firstTime") == false){
   document.querySelector('.help').style.top = "50%";
 }
 if(getCookie("firstTime") != btoa(1.2)){
-  console.log("reset");
   document.cookie = "firstTime="+btoa("1.2")+"; expires=01 jan 2030 12:00:00 UTC; path=/";
   document.cookie = "Account="+btoa("[]")+"; expires=Thu, 01 jan 2030 12:00:00 UTC; path=/";
   document.cookie = "TodaysGame="+btoa("[]")+"; expires=01 jan 2030 12:00:00 UTC; path=/";
   document.cookie = "LastGame="+btoa(today)+"; expires=Thu, 01 jan 2030 12:00:00 UTC; path=/";
   document.cookie = "isWin="+btoa("false")+"; expires=01 jan 2030 12:00:00 UTC; path=/";
 }
-console.log(getCookie("LastGame"));
 if(getCookie("LastGame") == false){
   var data = today;
   // data = btoa(data);
@@ -35,7 +33,6 @@ if(getCookie("LastGame") == false){
   var data = getCookie("LastGame");
   // data = atob(data);
   if(atob(data) != today){
-    console.log(atob(data)+" != "+today+" => reset");
     data = today;
     // data = btoa(data);
     document.cookie = "LastGame="+btoa(data)+"; expires=Thu, 01 jan 2030 12:00:00 UTC; path=/";
@@ -45,7 +42,6 @@ if(getCookie("LastGame") == false){
     if(atob(getCookie("isWin")) == "true"){
       document.cookie = "isWin="+btoa("false")+"; expires=01 jan 2030 12:00:00 UTC; path=/";
     }
-    console.log("pas venu aujourd'hui");
   }
 }
 
@@ -53,7 +49,6 @@ if(getCookie("LastGame") == false){
 if(getCookie("Account") == false){
   hadAccount = false;
   document.cookie = "Account="+btoa("[]")+"; expires=Thu, 01 jan 2030 12:00:00 UTC; path=/";
-  console.log("pas de compte");
 } else {
   var data = getCookie("Account");
   data = atob(data);
@@ -63,7 +58,6 @@ if(getCookie("Account") == false){
     accountAverage += element;
   });
   accountAverage = accountAverage/account.length;
-  console.log(accountAverage);
   document.querySelector('#account-average').innerHTML = "Moyenne : "+accountAverage.toFixed(2)+" essais";
 }
 if(getCookie("TodaysGame") == false){
@@ -75,7 +69,6 @@ if(getCookie("TodaysGame") == false){
   document.cookie = "TodaysGame="+userPicksJson+"; expires=01 jan 2030 12:00:00 UTC; path=/";
 } else {
   var data = getCookie("TodaysGame");
-  console.log('Manche à couille => '+data);
   data = atob(data);
   const userPicksCookie = JSON.parse(data);
   userPicksCookie.forEach(element => {
@@ -142,6 +135,9 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       if(prompt == "/ricard"){
         location.href = "https://ricard.ouipouet.tech/";
+      }
+      if(prompt == "/patchnotes"){
+        location.href = "https://github.com/BSCT-Tormod/dptdle";
       }
       
       departementValidator(prompt).then((res) => {
@@ -272,6 +268,17 @@ async function getDepartement(code){
 
 async function departementValidator(Pname) {
   for (let i = 1; i < 96; i++) {
+    if(i == 20){
+      let dpt = await getDepartement("2A");
+      if (formatName(dpt.nom) === Pname) {
+        return dpt.numero;
+      }
+      dpt = await getDepartement("2B");
+      if (formatName(dpt.nom) === Pname) {
+        return dpt.numero;
+      }
+      continue;
+    }
     const dpt = await getDepartement(formatDepartement(i.toString()));
     if (formatName(dpt.nom) === Pname) {
       return dpt.numero;
@@ -279,6 +286,7 @@ async function departementValidator(Pname) {
   }
   return false;
 }
+
 
 
 /**
@@ -295,67 +303,77 @@ function colorDepartement(target, prompt) {
   getDepartement(prompt)
   .then(promptDpt => {
     return getDepartement(target).then(targetDpt => {
-      if (promptDpt.numero === targetDpt.numero) { /* Vert */
-      document.querySelector('#dep-'+promptDpt.numero).style.fill = "#53FF38";
-      const html = `
-      <div class="user__inputs__content" style="border-color: #2E8743; color: #2E8743; box-shadow: #53FF38 inset 0px 0px 15px; font-size: 1.2em;">
-                    <p>${promptDpt.numero} - ${promptDpt.nom}</p>
-      </div>
-      `;
-      document.querySelector('.user__inputs').innerHTML = html + document.querySelector('.user__inputs').innerHTML;
-      document.querySelector('#win').innerHTML = "Vous avez déjà trouvé le département du jour !";
-
-      //Mise en place du texte dans le résultat
-      document.querySelector('#results-text').innerHTML = "Vous avez trouvé <em><strong>" + targetDpt.nom + "</strong></em> en <em><strong>" + userPicks.length + "</strong></em> essais !";
-
-      
-
-      if(atob(getCookie("isWin")) == "false"){
-        document.cookie = "isWin="+btoa("true")+"; expires=01 jan 2030 12:00:00 UTC; path=/";
-        var cookieAccount = [];
-        if(hadAccount == false){
-          cookieAccount.push(userPicks.length);
-        } else {
-          var data = getCookie("Account");
-          data = atob(data);
-          cookieAccount = JSON.parse(data);
-          cookieAccount.push(userPicks.length);
-        }
-        var accountAverage = 0;
-        cookieAccount.forEach(element => {
-          accountAverage += element;
-        });
-        accountAverage = accountAverage/cookieAccount.length;
-        document.querySelector('#account-average').innerHTML = "Moyenne : "+accountAverage.toFixed(2)+" essais";
-        cookieAccount = JSON.stringify(cookieAccount);
-        cookieAccount = btoa(cookieAccount);
-        document.cookie = "Account="+cookieAccount+"; expires=Thu, 01 jan 2030 12:00:00 UTC; path=/";
-        wait(100).then(() => {
-          conffetiLaunch();
-          wait(500).then(() => {
+      getDistance(prompt, target).then(distance => {
+        console.log(distance);
+        if (distance == 0) { /* Vert */
+        document.querySelector('#dep-'+promptDpt.numero).style.fill = "#53FF38";
+        const html = `
+        <div class="user__inputs__content" style="border-color: #2E8743; color: #2E8743; box-shadow: #53FF38 inset 0px 0px 15px; font-size: 1.2em;">
+        <p>${promptDpt.numero} - ${promptDpt.nom}</p>
+        </div>
+        `;
+        document.querySelector('.user__inputs').innerHTML = html + document.querySelector('.user__inputs').innerHTML;
+        document.querySelector('#win').innerHTML = "Vous avez déjà trouvé le département du jour !";
+        
+        //Mise en place du texte dans le résultat
+        document.querySelector('#results-text').innerHTML = "Vous avez trouvé <em><strong>" + targetDpt.nom + "</strong></em> en <em><strong>" + userPicks.length + "</strong></em> essais !";
+        
+        
+        
+        if(atob(getCookie("isWin")) == "false"){
+          document.cookie = "isWin="+btoa("true")+"; expires=01 jan 2030 12:00:00 UTC; path=/";
+          var cookieAccount = [];
+          if(hadAccount == false){
+            cookieAccount.push(userPicks.length);
+          } else {
+            var data = getCookie("Account");
+            data = atob(data);
+            cookieAccount = JSON.parse(data);
+            cookieAccount.push(userPicks.length);
+          }
+          var accountAverage = 0;
+          cookieAccount.forEach(element => {
+            accountAverage += element;
+          });
+          accountAverage = accountAverage/cookieAccount.length;
+          document.querySelector('#account-average').innerHTML = "Moyenne : "+accountAverage.toFixed(2)+" essais";
+          cookieAccount = JSON.stringify(cookieAccount);
+          cookieAccount = btoa(cookieAccount);
+          document.cookie = "Account="+cookieAccount+"; expires=Thu, 01 jan 2030 12:00:00 UTC; path=/";
+          wait(100).then(() => {
             conffetiLaunch();
-            wait(300).then(() => {
+            wait(500).then(() => {
               conffetiLaunch();
-              wait(200).then(() => {
+              wait(300).then(() => {
                 conffetiLaunch();
-                wait(400).then(() => {
+                wait(200).then(() => {
                   conffetiLaunch();
-                  wait(1000).then(() => {
-                    document.querySelector('.prompt').style.transition = "filter 0s";
-                    document.querySelector('.map').style.transition = "filter 0s";
-                    document.querySelector('.results').style.visibility = "visible";
-                    document.querySelector('.prompt').style.filter = "blur(5px)";
-                    document.querySelector('.map').style.filter = "blur(5px)";
-                    document.querySelector('.results').style.top = "50%";
+                  wait(400).then(() => {
+                    conffetiLaunch();
+                    wait(1000).then(() => {
+                      document.querySelector('.prompt').style.transition = "filter 0s";
+                      document.querySelector('.map').style.transition = "filter 0s";
+                      document.querySelector('.results').style.visibility = "visible";
+                      document.querySelector('.prompt').style.filter = "blur(5px)";
+                      document.querySelector('.map').style.filter = "blur(5px)";
+                      document.querySelector('.results').style.top = "50%";
+                    });
                   });
                 });
               });
             });
           });
-        });
+        }
+    } else if (distance < 150) { /* Vert clair */
+    if(getCookie("isWin") != false){
+      if(atob(getCookie("isWin")) == "true"){
+        document.querySelector('#compteur').innerHTML = "Essai n°"+(userPicks.length);
+      } else {
+        document.querySelector('#compteur').innerHTML = "Essai n°"+(userPicks.length+1);
       }
-    } else if (targetDpt.limitrophes.includes(promptDpt.numero)) { /* Jaune */
+    } else {
       document.querySelector('#compteur').innerHTML = "Essai n°"+(userPicks.length+1);
+    }
       document.querySelector('#dep-'+promptDpt.numero).style.fill = "#D3FF43";
       const html = `
       <div class="user__inputs__content" style="border-color: #aedf0e; color: #87ad0b; box-shadow: #D3FF43 inset 0px 0px 15px; font-size: 1.2em;">
@@ -363,30 +381,47 @@ function colorDepartement(target, prompt) {
       </div>
       `;
       document.querySelector('.user__inputs').innerHTML = html + document.querySelector('.user__inputs').innerHTML;
-    } else if (targetDpt.limitrophes2.includes(promptDpt.numero)) { /* Orange */
+    } else if (distance < 300) { /* Orange */
+    if(getCookie("isWin") != false){
+      if(atob(getCookie("isWin")) == "true"){
+        document.querySelector('#compteur').innerHTML = "Essai n°"+(userPicks.length);
+      } else {
+        document.querySelector('#compteur').innerHTML = "Essai n°"+(userPicks.length+1);
+      }
+    } else {
       document.querySelector('#compteur').innerHTML = "Essai n°"+(userPicks.length+1);
-      document.querySelector('#dep-'+promptDpt.numero).style.fill = "#FFB63E";
-      const html = `
-      <div class="user__inputs__content" style="border-color: #FF9348; color: #FF9348; box-shadow: #FFB63E inset 0px 0px 15px; font-size: 1.2em;">
-      <p>${promptDpt.numero} - ${promptDpt.nom}</p> 
-      </div>
-      `;
-      document.querySelector('.user__inputs').innerHTML = html + document.querySelector('.user__inputs').innerHTML;
-    } else { /* Rouge */
+    }
+    document.querySelector('#dep-'+promptDpt.numero).style.fill = "#FFB63E";
+    const html = `
+    <div class="user__inputs__content" style="border-color: #FF9348; color: #FF9348; box-shadow: #FFB63E inset 0px 0px 15px; font-size: 1.2em;">
+    <p>${promptDpt.numero} - ${promptDpt.nom}</p> 
+    </div>
+    `;
+    document.querySelector('.user__inputs').innerHTML = html + document.querySelector('.user__inputs').innerHTML;
+  } else { /* Rouge */
+  if(getCookie("isWin") != false){
+    if(atob(getCookie("isWin")) == "true"){
+      document.querySelector('#compteur').innerHTML = "Essai n°"+(userPicks.length);
+    } else {
       document.querySelector('#compteur').innerHTML = "Essai n°"+(userPicks.length+1);
-      document.querySelector('#dep-'+promptDpt.numero).style.fill = "#FF3D3D";
-      const html = `
-          <div class="user__inputs__content" style="border-color: #FF3D3D; color: #7e0000; box-shadow: #FF3D3D inset 0px 0px 15px; font-size: 1.2em;">
-          <p>${promptDpt.numero} - ${promptDpt.nom}</p> 
-          </div>
-          `;
-          document.querySelector('.user__inputs').innerHTML = html + document.querySelector('.user__inputs').innerHTML;
-        }
-      });
-    })
-    .catch(error => {
-      console.error('Erreur lors de la récupération des données :', error);
-    });
+    }
+  } else {
+    document.querySelector('#compteur').innerHTML = "Essai n°"+(userPicks.length+1);
+  }
+  document.querySelector('#dep-'+promptDpt.numero).style.fill = "#FF3D3D";
+  const html = `
+  <div class="user__inputs__content" style="border-color: #FF3D3D; color: #7e0000; box-shadow: #FF3D3D inset 0px 0px 15px; font-size: 1.2em;">
+  <p>${promptDpt.numero} - ${promptDpt.nom}</p> 
+  </div>
+  `;
+  document.querySelector('.user__inputs').innerHTML = html + document.querySelector('.user__inputs').innerHTML;
+}
+});
+})
+.catch(error => {
+  console.error('Erreur lors de la récupération des données :', error);
+});
+});
 }
   
   
@@ -411,10 +446,11 @@ function formatDepartement(dpt){
       dpt = "0" + dpt;
       break;
     case "20":
-      dpt = "2A";
-      break;
-    case "38":
-      dpt = "2B";
+      if(document.querySelector("#input").value == formatName("Corse-Du-Sud")){
+        dpt = "2A";
+      } else if(document.querySelector("#input").value == formatName("Haute-Corse")) {
+        dpt = "2B";
+      }
       break;
     default:
       break;
@@ -459,10 +495,18 @@ function generateDepartement() {
   // Formule mathématique complexe
   var result = (
     ((dayOfMonth * 4 + month * 7 + year * 13) % 38) + 1 
-  ) * Math.sin(dayOfMonth) * Math.cos(month) * Math.tan(year)*1000%38; // Nombre entre 1 et 38 a modifier selon les departements finis dans la bd
+  ) * Math.sin(dayOfMonth) * Math.cos(month) * Math.tan(year)*1000%95; // Nombre entre 1 et 38 a modifier selon les departements finis dans la bd
   
   result = Math.abs(result); // Valeur absolue
   result = Math.round(result); // Arrondi
+  if(result == 20){
+    if(Math.random()>0.5){
+      result = "2A";
+    } else {
+      result = "2B";
+    }
+    return result;
+  }
   result = result.toString();   
   result = formatDepartement(result);
 
@@ -470,6 +514,20 @@ function generateDepartement() {
   return result;
 }
 
+/**
+ * Cette fonction permet de calculer la distance entre deux points
+ *
+ * @param {String} dpt1 Premier departement
+ * @param {String} dpt2 Second departement
+ * @return {Number} 
+ */
+async function getDistance(dpt1, dpt2){
+  dpt1 = await getDepartement(dpt1);
+  dpt2 = await getDepartement(dpt2);
+
+  const distance = Math.sqrt(Math.pow(dpt1.pos[0]-dpt2.pos[0], 2) + Math.pow(dpt1.pos[1]-dpt2.pos[1], 2));
+  return distance;
+}
 
 
 /**

@@ -7,6 +7,7 @@
             "prefecture":"Bourg-en-Bresse",
             "population":653688,
             "superficie":5762,
+            "pos": [787, 564],
             "limitrophes": ["38","73","74","39","71","69"],
             "limitrophes2":["25", "70", "21", "58", "03", "42", "07", "26", "05"]
         },
@@ -17,6 +18,7 @@
             "prefecture":"Laon",
             "population":528016,
             "superficie":7362,
+            "pos": [599,178],
             "limitrophes": ["59","80","60","77","51","08"],
             "limitrophes2":["62", "76", "27", "95", "93", "94", "45", "89", "10", "52", "55"]
         },
@@ -27,6 +29,7 @@
             "prefecture":"Moulins",
             "population":333065,
             "superficie":7340,
+            "pos": [615,529],
             "limitrophes": ["18","58", "71", "42", "63", "23"],
             "limitrophes2":["89", "21", "39", "01", "69", "38", "07", "15", "43", "19", "87", "36", "41", "45"]  
         },
@@ -37,6 +40,7 @@
             "prefecture":"Digne-les-Bains",
             "population":161980,
             "superficie":6925,
+            "pos": [876,790],
             "limitrophes": ["05", "06", "83", "13", "84"],
             "limitrophes2": ["73", "38", "07", "30"]
         },
@@ -47,6 +51,7 @@
             "prefecture":"Gap",
             "population": 141784,
             "superficie":5549,
+            "pos": [859,723],
             "limitrophes": ["73", "38", "26", "04"],
             "limitrophes2": ["74", "01", "69", "42", "07", "30", "84", "83", "06"]
         },
@@ -57,6 +62,7 @@
             "prefecture":"Nice",
             "population":1081000,
             "superficie":4299,
+            "pos": [949,801],
             "limitrophes": ["04", "83"],
             "limitrophes2": ["05", "26", "84", "13"]
         },
@@ -67,6 +73,7 @@
             "prefecture":"Privas",
             "population":327011,
             "superficie":5566,
+            "pos": [718,720],
             "limitrophes": ["38", "26", "84", "30", "48", "43"],
             "limitrophes2": ["01", "73", "05", "04", "83", "13", "34", "12", "15", "63", "03", "71", "69"]
         },
@@ -77,6 +84,7 @@
             "prefecture":"Charleville-Mézières",
             "population":267409,
             "superficie":5220,
+            "pos": [722,168],
             "limitrophes": ["02", "51", "55"],
             "limitrophes2": ["59", "62", "80", "60", "77", "10", "52", "88", "54"]
 
@@ -88,6 +96,7 @@
             "prefecture":"Foix",
             "population":152340,
             "superficie":4890,
+            "pos": [483,923],
             "limitrophes": ["11", "66"],
             "limitrophes2": ["34", "81", "82", "32", "65"]
         },
@@ -98,6 +107,7 @@
             "prefecture":"Troyes",
             "population":309883,
             "superficie":6003,
+            "pos": [691,312],
             "limitrophes": ["02", "51", "52", "21", "89", "77"],
             "limitrophes2": ["08", "55", "88", "70", "39", "71", "58", "45", "91", "94", "93", "95", "60", "80", "62", "59"]
         },
@@ -108,6 +118,7 @@
             "prefecture":"Carcassonne",
             "population":368011,
             "superficie":6343,
+            "pos": [691,312],
             "limitrophes": ["34", "81", "31", "09", "66"],
             "limitrophes2": ["30", "12", "82", "32", "65"]
         },
@@ -118,6 +129,7 @@
             "prefecture":"Rodez",
             "population":277900,
             "superficie":8735,
+            "pos": [574,769],
             "limitrophes": ["15", "48", "30", "34", "81", "82", "46"],
             "limitrophes2": ["11", "31", "32", "47", "24", "19", "63", "43", "07", "84", "13"]          
         },
@@ -128,6 +140,7 @@
             "prefecture":"Marseille",
             "population":2035000,
             "superficie":5247,
+            "pos": [782,854],
             "limitrophes": ["83", "04", "84", "30"],
             "limitrophes2": ["06", "05", "26", "07", "48", "12", "34"]
         },
@@ -138,6 +151,7 @@
             "prefecture":"Caen",
             "population":691676,
             "superficie":5693,
+            "pos": [348,220],
             "limitrophes": ["50", "61", "27"],
             "limitrophes2": ["76", "60", "95", "78", "28", "72", "53", "35"]
         },
@@ -148,6 +162,7 @@
             "prefecture":"Aurillac",
             "population":143627,
             "superficie":5774,
+            "pos": [580,678],
             "limitrophes": ["63", "43", "48", "12", "46", "19"],
             "limitrophes2": ["03", "42", "07", "30", "34", "81", "82", "47", "24", "87", "23"]
         },
@@ -158,6 +173,7 @@
             "prefecture":"Angoulême",
             "population":350240,
             "superficie":5959,
+            "pos": [372,610],
             "limitrophes": ["17", "79", "86", "87", "24"],
             "limitrophes2": ["85", "49", "37", "36", "23", "19", "46", "47", "33"]
         },
@@ -168,6 +184,7 @@
             "prefecture":"La Rochelle",
             "population":646016,
             "superficie":6864,
+            "pos": [296,584],
             "limitrophes": ["85", "79", "16", "33"],
             "limitrophes2": ["44", "49", "86", "87", "24", "47", "40"]
         },
@@ -178,6 +195,7 @@
             "prefecture":"Bourges",
             "population":300174,
             "superficie":7235,
+            "pos": [562,455],
             "limitrophes": ["89", "58", "03", "23", "36", "41", "45"],
             "limitrophes2": ["10", "21", "71", "42", "63", "19", "87", "86", "37", "72", "28", "91", "77"]
         },
@@ -188,6 +206,7 @@
             "prefecture":"Tulle",
             "population":240973,
             "superficie":5857,
+            "pos": [508,654],
             "limitrophes": ["63", "15", "46", "24", "87", "23"],
             "limitrophes2": ["03", "42", "43", "48", "12", "81", "82", "47", "33", "17", "16", "89", "36", "18"]          
         },
@@ -198,6 +217,7 @@
             "prefecture":"Ajaccio",
             "population":158800,
             "superficie":4014,
+            "pos": [0,0],
             "limitrophes": ["2B"],
             "limitrophes2": []
         },
@@ -208,6 +228,7 @@
             "prefecture":"Bastia",
             "population":180378,
             "superficie":4666,
+            "pos": [0,1],
             "limitrophes": ["2A"],
             "limitrophes2": []
         },
@@ -218,6 +239,7 @@
             "prefecture":"Dijon",
             "population":532901,
             "superficie":8763,
+            "pos": [737,420],
             "limitrophes": ["70", "39", "71", "58", "89", "10", "52"],
             "limitrophes2": ["90", "25", "00", "69", "42", "03", "18", "45", "77", "51", "55", "88", "68", "01"]          
         },
@@ -228,6 +250,7 @@
             "prefecture":"Saint-Brieuc",
             "population":596518,
             "superficie":6876,
+            "pos": [159,299],
             "limitrophes": ["29", "56", "35"],
             "limitrophes2": ["50", "53", "49", "44"]
         },
@@ -238,6 +261,7 @@
             "prefecture":"Guéret",
             "population":117340,
             "superficie":5566,
+            "pos": [524,565],
             "limitrophes": ["03", "63", "19", "87", "36", "18"],
             "limitrophes2": ["58", "71", "42", "43", "15", "46", "24", "16", "86", "37", "41", "45"]          
         },
@@ -248,6 +272,7 @@
             "prefecture":"Périgueux",
             "population":409548,
             "superficie":9060,
+            "pos": [418,674],
             "limitrophes": ["87", "19", "46", "47", "33", "16", "17"],
             "limitrophes2": ["85", "79", "86", "36", "23", "63", "15", "12", "82", "32", "40"]          
         },
@@ -258,6 +283,7 @@
             "prefecture":"Besançon",
             "population":539465,
             "superficie":5239,
+            "pos": [861,437],
             "limitrophes": ["90", "70", "39"],
             "limitrophes2": ["68", "88", "52", "21", "71", "01"]
         },
@@ -268,6 +294,7 @@
             "prefecture":"Valence",
             "population":517709,
             "superficie":6558,
+            "pos": [781,724],
             "limitrophes": ["38", "05", "04", "84", "30", "07"],
             "limitrophes2": ["73", "06", "83", "13", "34", "12", "48", "43", "42", "69", "01"]
         },
@@ -278,6 +305,7 @@
             "prefecture":"Évreux",
             "population":602086,
             "superficie":6006,
+            "pos": [448,232],
             "limitrophes": ["76", "60", "95", "78", "28", "61", "14"],
             "limitrophes2": ["80", "02", "77", "91", "45", "41", "72", "53", "50", "92", "93", "94"]
         },
@@ -288,6 +316,7 @@
             "prefecture":"Chartres",
             "population":432778,
             "superficie":5883,
+            "pos": [471,316],
             "limitrophes": ["27", "78", "91", "45", "41", "72", "61"],
             "limitrophes2": ["76", "95", "92", "84", "77", "89", "58", "18", "36", "37", "49", "53", "50", "14"]
         },
@@ -298,6 +327,7 @@
             "prefecture":"Quimper",
             "population":907995,
             "superficie":6733,
+            "pos": [56,303],
             "limitrophes": ["22", "56"],
             "limitrophes2": ["35", "44"]
         },
@@ -308,6 +338,7 @@
             "prefecture":"Nîmes",
             "population":742006,
             "superficie":5874,
+            "pos": [709,800],
             "limitrophes": ["34", "12", "48", "43", "07", "84", "13"],
             "limitrophes2": ["11", "81", "82", "46", "15", "63", "42", "26", "38", "04", "83"]
         },
@@ -318,6 +349,7 @@
             "prefecture":"Toulouse",
             "population":1415757,
             "superficie":6305,
+            "pos": [453,874],
             "limitrophes": ["65", "32", "82", "81", "11", "09"],
             "limitrophes2": ["66", "34", "12", "46", "47", "40", "64"]
         },
@@ -328,6 +360,7 @@
             "prefecture":"Auch",
             "population":190664,
             "superficie":6253,
+            "pos": [391,839],
             "limitrophes": ["47", "82", "31", "65", "64", "40"],
             "limitrophes2": ["33", "24", "46", "12", "81", "11", "093"]
         },
@@ -338,6 +371,7 @@
             "prefecture":"Bordeaux",
             "population":1636391,
             "superficie":10020,
+            "pos": [313,712],
             "limitrophes": ["17", "16", "24", "47", "40"],
             "limitrophes2": ["85", "79", "86", "87", "19", "46", "82", "32", "64"]
         },
@@ -348,6 +382,7 @@
             "prefecture":"Montpellier",
             "population":1140000,
             "superficie":6221,
+            "pos": [635,855],
             "limitrophes": ["30", "12", "81", "11"],
             "limitrophes2": ["66", "09", "31", "82", "46", "15", "07", "26", "84", "13"]
         },
@@ -358,6 +393,7 @@
             "prefecture":"Rennes",
             "population":1040000,
             "superficie":6776,
+            "pos": [247,328],
             "limitrophes": ["22", "56", "44", "49", "53", "50"],
             "limitrophes2": ["14", "61", "72", "37", "86", "79", "85", "29"]
         },
@@ -368,6 +404,7 @@
             "prefecture":"Châteauroux",
             "population":227000,
             "superficie":6875,
+            "pos": [491,491],
             "limitrophes": ["41", "18", "23", "87", "86", "37"],
             "limitrophes2": ["58", "03", "63", "19", "24", "16", "79", "49", "72", "28", "45"]
         },
@@ -378,6 +415,7 @@
             "prefecture":"Tours",
             "population":606000,
             "superficie":6125,
+            "pos": [420,433],
             "limitrophes":[],
             "limitrophes2":[]
         },
@@ -388,6 +426,7 @@
             "prefecture":"Grenoble",
             "population":1260000,
             "superficie":7435,
+            "pos": [813,656],
             "limitrophes":[],
             "limitrophes2":[]
         },
@@ -398,6 +437,7 @@
             "prefecture":"Lons-le-Saunier",
             "population":260000,
             "superficie":4999,
+            "pos": [819,500],
             "limitrophes":[],
             "limitrophes2":[]
         },
@@ -408,6 +448,7 @@
             "prefecture":"Mont-de-Marsan",
             "population":405000,
             "superficie":9243,
+            "pos": [290,802],
             "limitrophes":[],
             "limitrophes2":[]
         },
@@ -418,6 +459,7 @@
             "prefecture":"Blois",
             "population":332000,
             "superficie":6343,
+            "pos": [474,400],
             "limitrophes":[],
             "limitrophes2":[]
         },
@@ -428,6 +470,7 @@
             "prefecture":"Saint-Étienne",
             "population":760000,
             "superficie":4783,
+            "pos": [694,613],
             "limitrophes":[],
             "limitrophes2":[]
         },
@@ -438,6 +481,7 @@
             "prefecture":"Le Puy-en-Velay",
             "population":227000,
             "superficie":5003,
+            "pos": [670,674],
             "limitrophes":[],
             "limitrophes2":[]
         },
@@ -448,6 +492,7 @@
             "prefecture":"Nantes",
             "population":1380000,
             "superficie":6810,
+            "pos": [227,414],
             "limitrophes":[],
             "limitrophes2":[]
         },
@@ -458,6 +503,7 @@
             "prefecture":"Orléans",
             "population":677000,
             "superficie":6776,
+            "pos": [545,360],
             "limitrophes":[],
             "limitrophes2":[]
         },
@@ -468,6 +514,7 @@
             "prefecture":"Cahors",
             "population":173000,
             "superficie":5225,
+            "pos": [485,734],
             "limitrophes":[],
             "limitrophes2":[]
         },
@@ -478,6 +525,7 @@
             "prefecture":"Agen",
             "population":332000,
             "superficie":5388,
+            "pos": [400,757],
             "limitrophes":[],
             "limitrophes2":[]
         },
@@ -488,6 +536,7 @@
             "prefecture":"Mende",
             "population":76000,
             "superficie":5175,
+            "pos": [643,745],
             "limitrophes":[],
             "limitrophes2":[]
         },
@@ -498,6 +547,7 @@
             "prefecture":"Angers",
             "population":810000,
             "superficie":7207,
+            "pos": [326,417],
             "limitrophes":[],
             "limitrophes2":[]
         },
@@ -508,6 +558,7 @@
             "prefecture":"Saint-Lô",
             "population":499000,
             "superficie":5973,
+            "pos": [272,228],
             "limitrophes":[],
             "limitrophes2":[]
         },
@@ -518,6 +569,7 @@
             "prefecture":"Châlons-en-Champagne",
             "population":570000,
             "superficie":8164,
+            "pos": [694,240],
             "limitrophes":[],
             "limitrophes2":[]
         },
@@ -528,6 +580,7 @@
             "prefecture":"Chaumont",
             "population":180000,
             "superficie":6207,
+            "pos": [775,339],
             "limitrophes":[],
             "limitrophes2":[]
         },
@@ -538,6 +591,7 @@
             "prefecture":"Laval",
             "population":307000,
             "superficie":5175,
+            "pos": [315,329],
             "limitrophes":[],
             "limitrophes2":[]
         },
@@ -548,6 +602,7 @@
             "prefecture":"Nancy",
             "population":733000,
             "superficie":5230,
+            "pos": [830,258],
             "limitrophes":[],
             "limitrophes2":[]
         },
@@ -558,6 +613,7 @@
             "prefecture":"Bar-le-Duc",
             "population":190000,
             "superficie":6240,
+            "pos": [777,243],
             "limitrophes":[],
             "limitrophes2":[]
         },
@@ -568,6 +624,7 @@
             "prefecture":"Vannes",
             "population":758000,
             "superficie":6873,
+            "pos": [146,359],
             "limitrophes":[],
             "limitrophes2":[]
         },
@@ -578,6 +635,7 @@
             "prefecture":"Metz",
             "population":1040000,
             "superficie":6197,
+            "pos": [871,230],
             "limitrophes":[],
             "limitrophes2":[]
         },
@@ -588,6 +646,7 @@
             "prefecture":"Nevers",
             "population":209000,
             "superficie":6815,
+            "pos": [641,452],
             "limitrophes":[],
             "limitrophes2":[]
         },
@@ -598,6 +657,7 @@
             "prefecture":"Lille",
             "population":2590000,
             "superficie":5743,
+            "pos": [609,68],
             "limitrophes":[],
             "limitrophes2":[]
         },
@@ -608,6 +668,7 @@
             "prefecture":"Beauvais",
             "population":826000,
             "superficie":5860,
+            "pos": [559,191],
             "limitrophes":[],
             "limitrophes2":[]
         },
@@ -618,6 +679,7 @@
             "prefecture":"Alençon",
             "population":286000,
             "superficie":6108,
+            "pos": [375,273],
             "limitrophes":[],
             "limitrophes2":[]
         },
@@ -628,6 +690,7 @@
             "prefecture":"Arras",
             "population":1460000,
             "superficie":6652,
+            "pos": [546,73],
             "limitrophes":[],
             "limitrophes2":[]
         },
@@ -638,6 +701,7 @@
             "prefecture":"Clermont-Ferrand",
             "population":650000,
             "superficie":7970,
+            "pos": [610,610],
             "limitrophes":[],
             "limitrophes2":[]
         },
@@ -648,6 +712,7 @@
             "prefecture":"Pau",
             "population":675000,
             "superficie":7649,
+            "pos": [283,886],
             "limitrophes":[],
             "limitrophes2":[]
         },
@@ -658,6 +723,7 @@
             "prefecture":"Tarbes",
             "population":228000,
             "superficie":4464,
+            "pos": [368,909],
             "limitrophes":[],
             "limitrophes2":[]
         },
@@ -668,6 +734,7 @@
             "prefecture":"Perpignan",
             "population":479000,
             "superficie":4114,
+            "pos": [566,962],
             "limitrophes":[],
             "limitrophes2":[]
         },
@@ -678,6 +745,7 @@
             "prefecture":"Strasbourg",
             "population":1120000,
             "superficie":4759,
+            "pos": [950,260],
             "limitrophes":[],
             "limitrophes2":[]
         },
@@ -688,6 +756,7 @@
             "prefecture":"Colmar",
             "population":762000,
             "superficie":3525,
+            "pos": [946,264],
             "limitrophes":[],
             "limitrophes2":[]
         },
@@ -698,6 +767,7 @@
             "prefecture":"Lyon",
             "population":1820000,
             "superficie":3249,
+            "pos": [727,589],
             "limitrophes":[],
             "limitrophes2":[]
         },
@@ -708,6 +778,7 @@
             "prefecture":"Vesoul",
             "population":235000,
             "superficie":5367,
+            "pos": [843,383],
             "limitrophes":[],
             "limitrophes2":[]
         },
@@ -718,6 +789,7 @@
             "prefecture":"Mâcon",
             "population":555000,
             "superficie":8574,
+            "pos": [725,500],
             "limitrophes":[],
             "limitrophes2":[]
         },
@@ -728,6 +800,7 @@
             "prefecture":"Le Mans",
             "population":569000,
             "superficie":6207,
+            "pos": [383,351],
             "limitrophes":[],
             "limitrophes2":[]
         },
@@ -738,6 +811,7 @@
             "prefecture":"Chambéry",
             "population":434000,
             "superficie":6184,
+            "pos": [889,628],
             "limitrophes":[],
             "limitrophes2":[]
         },
@@ -748,6 +822,7 @@
             "prefecture":"Annecy",
             "population":812000,
             "superficie":4387,
+            "pos": [874,563],
             "limitrophes":[],
             "limitrophes2":[]
         },
@@ -758,6 +833,7 @@
             "prefecture":"Paris",
             "population":2148000,
             "superficie":105,
+            "pos": [584,254],
             "limitrophes":[],
             "limitrophes2":[]
         },
@@ -768,7 +844,7 @@
             "prefecture":"Rouen",
             "population":1250000,
             "superficie":6277,
-            "limitrophes":[],
+            "limitrophes":[448, 162],
             "limitrophes2":[]
         },
         "77":{
@@ -778,6 +854,7 @@
             "prefecture":"Melun",
             "population":1420000,
             "superficie":5912,
+            "pos": [595,275],
             "limitrophes":[],
             "limitrophes2":[]
         },
@@ -788,6 +865,7 @@
             "prefecture":"Versailles",
             "population":1450000,
             "superficie":2284,
+            "pos": [510,256],
             "limitrophes":[],
             "limitrophes2":[]
         },
@@ -798,6 +876,7 @@
             "prefecture":"Niort",
             "population":380000,
             "superficie":5999,
+            "pos": [334,503],
             "limitrophes":[],
             "limitrophes2":[]
         },
@@ -808,6 +887,7 @@
             "prefecture":"Amiens",
             "population":571000,
             "superficie":6179,
+            "pos": [547,132],
             "limitrophes":[],
             "limitrophes2":[]
         },
@@ -818,6 +898,7 @@
             "prefecture":"Albi",
             "population":390000,
             "superficie":5750,
+            "pos": [533,828],
             "limitrophes":[],
             "limitrophes2":[]
         },
@@ -828,6 +909,7 @@
             "prefecture":"Montauban",
             "population":260000,
             "superficie":3715,
+            "pos": [457,798],
             "limitrophes":[],
             "limitrophes2":[]
         },
@@ -838,6 +920,7 @@
             "prefecture":"Toulon",
             "population":1050000,
             "superficie":5970,
+            "pos": [881,859],
             "limitrophes":[],
             "limitrophes2":[]
         },
@@ -849,6 +932,7 @@
             "population":560000,
             "superficie":3565,
             "limitrophes":[],
+            "pos": [786,797],
             "limitrophes2":[]
         },
         "85":{
@@ -858,6 +942,7 @@
             "prefecture":"La Roche-sur-Yon",
             "population":670000,
             "superficie":6721,
+            "pos": [266,500],
             "limitrophes":[],
             "limitrophes2":[]
         },
@@ -868,6 +953,7 @@
             "prefecture":"Poitiers",
             "population":439000,
             "superficie":6990,
+            "pos": [402,516],
             "limitrophes":[],
             "limitrophes2":[]
         },
@@ -878,6 +964,7 @@
             "prefecture":"Limoges",
             "population":372000,
             "superficie":5566,
+            "pos": [460,592],
             "limitrophes":[],
             "limitrophes2":[]
         },
@@ -888,6 +975,7 @@
             "prefecture":"Épinal",
             "population":371000,
             "superficie":5874,
+            "pos": [858,320],
             "limitrophes":[],
             "limitrophes2":[]
         },
@@ -898,6 +986,7 @@
             "prefecture":"Auxerre",
             "population":341000,
             "superficie":7429,
+            "pos": [644,372],
             "limitrophes":[],
             "limitrophes2":[]
         },
@@ -908,6 +997,7 @@
             "prefecture":"Belfort",
             "population":145000,
             "superficie":609,
+            "pos": [906,382],
             "limitrophes":[],
             "limitrophes2":[]
         },
@@ -918,6 +1008,7 @@
             "prefecture":"Évry-Courcouronnes",
             "population":1300000,
             "superficie":1809,
+            "pos": [541,289],
             "limitrophes":[],
             "limitrophes2":[]
         },
@@ -928,6 +1019,7 @@
             "prefecture":"Nanterre",
             "population":1600000,
             "superficie":176,
+            "pos": [537,254],
             "limitrophes":[],
             "limitrophes2":[]
         },
@@ -938,6 +1030,7 @@
             "prefecture":"Bobigny",
             "population":1600000,
             "superficie":236,
+            "pos": [559,245],
             "limitrophes":[],
             "limitrophes2":[]
         },
@@ -948,6 +1041,7 @@
             "prefecture":"Créteil",
             "population":1400000,
             "superficie":245,
+            "pos": [559,262],
             "limitrophes":[],
             "limitrophes2":[]
         },
@@ -958,6 +1052,7 @@
             "prefecture":"Pontoise",
             "population":1220000,
             "superficie":1246,
+            "pos": [537,228],
             "limitrophes":[],
             "limitrophes2":[]
         }
