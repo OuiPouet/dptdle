@@ -37,7 +37,7 @@ Ce jeu est un projet personnel réalisé pendant mon temps libre. J'ai eu envie 
 
 ## Patch notes
 
-## Version 1.2.5
+### Version 1.2.5
 - Changement du système de coloration des départements :  
     <- Système de coloration selon si le departement est limitrophe \[Vert\], limitrophe de limitrophe \[Orange\] ou non limitrophe \[Rouge\].
     -> Système de coloration selon la distance calculée entre les département. \[Vert\] = 0, \[Vert clair\] < 150, \[Orange\] < 300, \[Rouge\] > 300.
