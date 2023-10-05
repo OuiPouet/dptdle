@@ -39,7 +39,7 @@ Ce jeu est un projet personnel réalisé pendant mon temps libre. J'ai eu envie 
 
 ## Version 1.2.5
 - Changement du système de coloration des départements :  
-    <- Système de coloration selon si le departement est limitrophe \[Vert\], limitrophe de limitrophe \[Orange\] ou non limitrophe \[Rouge\]
+    <- Système de coloration selon si le departement est limitrophe \[Vert\], limitrophe de limitrophe \[Orange\] ou non limitrophe \[Rouge\].
     -> Système de coloration selon la distance calculée entre les département. \[Vert\] = 0, \[Vert clair\] < 150, \[Orange\] < 300, \[Rouge\] > 300.
 - Ajout des 95 départements en tant que cible.
 - Ajout de l'atribut "pos\[x,y\]" dans la base de données ou x et y sont les coordonnées du département.
