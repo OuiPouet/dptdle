@@ -1,8 +1,13 @@
 const userPicks = [];
 var today = new Date();
+var yesterday = new Date(today);
 var options = { month: 'numeric', day: 'numeric', year: 'numeric' };
 today = today.toLocaleDateString('fr-FR', options);
 var hadAccount = true;
+
+yesterday.setDate(yesterday.getDate() - 1);
+yesterday = yesterday.toLocaleDateString('fr-FR', options);
+
 
 const target = generateDepartement();
 // const target = "2A"; // Ligne de test
@@ -17,6 +22,7 @@ if(getCookie("firstTime") == false){
   document.querySelector('.map').style.filter = "blur(5px)";
   document.querySelector('.help').style.top = "50%";
 }
+
 if(getCookie("firstTime") != btoa(1.2)){
   document.cookie = "firstTime="+btoa("1.2")+"; expires=01 jan 2030 12:00:00 UTC; path=/";
   document.cookie = "Account="+btoa("[]")+"; expires=Thu, 01 jan 2030 12:00:00 UTC; path=/";
@@ -24,6 +30,21 @@ if(getCookie("firstTime") != btoa(1.2)){
   document.cookie = "LastGame="+btoa(today)+"; expires=Thu, 01 jan 2030 12:00:00 UTC; path=/";
   document.cookie = "isWin="+btoa("false")+"; expires=01 jan 2030 12:00:00 UTC; path=/";
 }
+
+
+if(getCookie("Streak") == false){
+  document.cookie = "Streak="+btoa(0)+"; expires=Thu, 01 jan 2030 12:00:00 UTC; path=/";
+} else {
+  var streak = getCookie("Streak");
+  streak = atob(streak);
+  }
+  if(streak > 1){
+    const html = `<p id="streak" class="account-data">Streak : ${streak} 🔥</p>`;
+    document.querySelector('.account').innerHTML += html;
+}
+
+
+
 if(getCookie("LastGame") == false){
   var data = today;
   // data = btoa(data);
@@ -33,6 +54,23 @@ if(getCookie("LastGame") == false){
   var data = getCookie("LastGame");
   // data = atob(data);
   if(atob(data) != today){
+    if(atob(data) != yesterday){
+      document.cookie = "Streak="+btoa(0)+"; expires=Thu, 01 jan 2030 12:00:00 UTC; path=/";
+    } else if(atob(data) == yesterday && atob(getCookie("isWin")) == "true"){
+      var streak = getCookie("Streak");
+      streak = atob(streak);
+      streak = parseInt(streak);
+      streak += 1;
+      if(streak == 2){
+        const html = `<p id="streak" class="account-data">Streak : ${streak} 🔥</p>`;
+        document.querySelector('.account').innerHTML += html;
+      }else if(streak > 1){
+        document.querySelector('#streak').innerHTML = "Streak : "+streak+" 🔥"
+      }
+      document.cookie = "Streak="+btoa(streak)+"; expires=Thu, 01 jan 2030 12:00:00 UTC; path=/";
+    }
+
+
     data = today;
     // data = btoa(data);
     document.cookie = "LastGame="+btoa(data)+"; expires=Thu, 01 jan 2030 12:00:00 UTC; path=/";
@@ -60,6 +98,8 @@ if(getCookie("Account") == false){
   accountAverage = accountAverage/account.length;
   document.querySelector('#account-average').innerHTML = "Moyenne : "+accountAverage.toFixed(2)+" essais";
 }
+
+
 if(getCookie("TodaysGame") == false){
   var userPicksJson = JSON.stringify(userPicks);
   userPicksJson = btoa(userPicksJson);
@@ -77,11 +117,30 @@ if(getCookie("TodaysGame") == false){
   });
   document.querySelector('#compteur').innerHTML = "Essai n°"+(userPicks.length+1);
 }
+
 if(getCookie("isWin") != false){
   if(atob(getCookie("isWin")) == "true"){
     document.querySelector('#win').innerHTML = "Vous avez déjà trouvé le département du jour !";
     document.querySelector('#compteur').innerHTML = "Essai n°"+(userPicks.length);
+    if(atob(getCookie("Streak"))>0){
+      var displayStreak = atob(getCookie("Streak"));
+      displayStreak = parseInt(displayStreak);
+      displayStreak ++;
+      if(displayStreak == 2){
+        const html = `<p id="streak" class="account-data">Streak : ${displayStreak} 🔥</p>`;
+        document.querySelector('.account').innerHTML += html;
+      }else{
+        document.querySelector('#streak').innerHTML = "Streak : "+displayStreak+" 🔥";
+      }
+    }
   }
+}
+
+if(getCookie("winCompteur") == false){
+  document.cookie = "winCompteur="+btoa(0)+"; expires=01 jan 2030 12:00:00 UTC; path=/";
+} else {
+  var winCompteur = atob(getCookie("winCompteur"));
+  document.querySelector("#win-compteur").innerHTML = "Départements du jour trouvés : "+winCompteur;
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -137,7 +196,7 @@ document.addEventListener('DOMContentLoaded', () => {
         location.href = "https://ricard.ouipouet.tech/";
       }
       if(prompt == "/patchnotes"){
-        location.href = "https://github.com/BSCT-Tormod/dptdle";
+        location.href = "https://github.com/BSCT-Tormod/dptdle#patch-notes";
       }
       
       departementValidator(prompt).then((res) => {
@@ -266,21 +325,27 @@ async function getDepartement(code){
   return departement;
 }
 
-async function departementValidator(Pname) {
+/**
+ * Verifie si le departement existe
+ *
+ * @param {String} name Nom du departement
+ * @return {String, Boolean} Numéro du département ou faux si le dpt n'existe pas 
+ */
+async function departementValidator(name) {
   for (let i = 1; i < 96; i++) {
     if(i == 20){
       let dpt = await getDepartement("2A");
-      if (formatName(dpt.nom) === Pname) {
+      if (formatName(dpt.nom) === name) {
         return dpt.numero;
       }
       dpt = await getDepartement("2B");
-      if (formatName(dpt.nom) === Pname) {
+      if (formatName(dpt.nom) === name) {
         return dpt.numero;
       }
       continue;
     }
     const dpt = await getDepartement(formatDepartement(i.toString()));
-    if (formatName(dpt.nom) === Pname) {
+    if (formatName(dpt.nom) === name) {
       return dpt.numero;
     }
   }
@@ -304,7 +369,6 @@ function colorDepartement(target, prompt) {
   .then(promptDpt => {
     return getDepartement(target).then(targetDpt => {
       getDistance(prompt, target).then(distance => {
-        console.log(distance);
         if (distance == 0) { /* Vert */
         document.querySelector('#dep-'+promptDpt.numero).style.fill = "#53FF38";
         const html = `
@@ -340,6 +404,25 @@ function colorDepartement(target, prompt) {
           cookieAccount = JSON.stringify(cookieAccount);
           cookieAccount = btoa(cookieAccount);
           document.cookie = "Account="+cookieAccount+"; expires=Thu, 01 jan 2030 12:00:00 UTC; path=/";
+          if(atob(getCookie("Streak"))>0){
+            var displayStreak = atob(getCookie("Streak"));
+            displayStreak = parseInt(displayStreak);
+            displayStreak ++;
+            if(displayStreak == 2){
+              const html = `<p id="streak" class="account-data">Streak : ${displayStreak} 🔥</p>`;
+              document.querySelector('.account').innerHTML += html;
+            }else{
+              document.querySelector('#streak').innerHTML = "Streak : "+displayStreak+" 🔥";
+            }
+          }
+
+          if(getCookie("winCompteur") != false){
+            var winNb = atob(getCookie("winCompteur"));
+            winNb ++;
+            document.cookie = "winCompteur="+btoa(winNb)+"; expires=01 jan 2030 12:00:00 UTC; path=/";
+            document.querySelector("#win-compteur").innerHTML = "Départements du jour trouvés : "+winNb;
+          }
+
           wait(100).then(() => {
             conffetiLaunch();
             wait(500).then(() => {
@@ -574,6 +657,7 @@ function share() {
   navigator.clipboard.writeText("J'ai trouvé le département du jour en " + userPicks.length + " essais !\nhttps://ouipouet.tech/");
   alert("Copié !");
 }
+
 
 function getCookie(value){
   var cookies = document.cookie.split(';');

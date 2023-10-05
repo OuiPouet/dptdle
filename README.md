@@ -37,9 +37,17 @@ Ce jeu est un projet personnel réalisé pendant mon temps libre. J'ai eu envie 
 
 ## Patch notes
 
+### Version 1.2.51
+- Ajout d'un compteur de Streak dans le compte. La Streak est le nombre de jours consécutifs ou le joueur a trouvé le département cible. Louper un jour fera rénitialiser la Streak.
+- Ajout du nombre total de départements du jour trouvés dans le compte.
+- Corrections de bugs et améliorations :
+    - Supression d'un console.log\(\) de debug.
+    - Correction d'un bug visuel sur l'affichage telephone du a l'ajout d'un essai ce qui avait pour cause de faire remonter la carte hors champ.
+    - La commande /patchnotes redirige désormais directement sur les patch notes et non plus sur le dépot git.
+
 ### Version 1.2.5
 - Changement du système de coloration des départements :  
-    <- Système de coloration selon si le departement est limitrophe \[Vert\], limitrophe de limitrophe \[Orange\] ou non limitrophe \[Rouge\].
+    <- Système de coloration selon si le departement est limitrophe \[Vert\], limitrophe de limitrophe \[Orange\] ou non limitrophe \[Rouge\].  
     -> Système de coloration selon la distance calculée entre les département. \[Vert\] = 0, \[Vert clair\] < 150, \[Orange\] < 300, \[Rouge\] > 300.
 - Ajout des 95 départements en tant que cible.
 - Ajout de l'atribut "pos\[x,y\]" dans la base de données ou x et y sont les coordonnées du département.
@@ -73,4 +81,4 @@ Ce jeu est un projet personnel réalisé pendant mon temps libre. J'ai eu envie 
 ### Version 0.9.0
 - Création du jeu de base
 
-Note : Les patchs notes antérieures a la version 1.2.5 ne sont pas précises car je n'avais pas créé créé cette page et les patchs notes au moment de la sorties des dites versions.
+Note : Les patch notes antérieures a la version 1.2.5 ne sont pas précises car je n'avais pas créé créé cette page et les patch notes au moment de la sorties des dites versions.

@@ -23,6 +23,7 @@ body{
     flex-direction: column-reverse;
     justify-content: start; 
     align-items: center;
+    overflow: auto;
   }
 
   .map{
@@ -186,6 +187,10 @@ canvas {
 
 #account-average{
   font-size: 2.5em;
+}
+
+.account-data{
+  font-size: 1.5em;
 }
 
 .help img, .account img, .results img, .cmd-list img{
