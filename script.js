@@ -4,13 +4,25 @@ var yesterday = new Date(today);
 var options = { month: 'numeric', day: 'numeric', year: 'numeric' };
 today = today.toLocaleDateString('fr-FR', options);
 var hadAccount = true;
+var gameMode = "normal";
+var soundEnabled = "minecraft";
+var score = 0;
+
+var dptQuiz = Math.floor(Math.random() * 95) + 1;
+dptQuiz = formatDepartement(dptQuiz.toString());
+
+// Variables mode orientation :
+// const targetOrientation = generateDepartementOrientation();
+const targetOrientation = "46"; // Ligne de test
+const userPicksOrientation = [];
 
 yesterday.setDate(yesterday.getDate() - 1);
 yesterday = yesterday.toLocaleDateString('fr-FR', options);
 
 
-const target = generateDepartement();
-// const target = "2A"; // Ligne de test
+// const target = generateDepartement();
+const target = "21"; // Ligne de test
+
 
 //Gestion des cookies
 if(getCookie("firstTime") == false){
@@ -31,7 +43,6 @@ if(getCookie("firstTime") != btoa(1.2)){
   document.cookie = "isWin="+btoa("false")+"; expires=01 jan 2030 12:00:00 UTC; path=/";
 }
 
-
 if(getCookie("Streak") == false){
   document.cookie = "Streak="+btoa(0)+"; expires=Thu, 01 jan 2030 12:00:00 UTC; path=/";
 } else {
@@ -42,6 +53,16 @@ if(getCookie("Streak") == false){
     const html = `<p id="streak" class="account-data">Streak : ${streak} 🔥</p>`;
     document.querySelector('.account').innerHTML += html;
 }
+
+if(getCookie("Quiz") == false){
+  document.cookie = "Quiz="+btoa(0)+"; expires=Thu, 01 jan 2030 12:00:00 UTC; path=/";
+} else {
+  var quizPb = getCookie("Quiz");
+  quizPb = atob(quizPb);
+}
+const html = `<p id="quiz-pb" class="account-data">Meilleur score au quiz : ${quizPb} </p>`;
+document.querySelector('.account').innerHTML += html;
+
 
 
 
@@ -83,7 +104,6 @@ if(getCookie("LastGame") == false){
   }
 }
 
-
 if(getCookie("Account") == false){
   hadAccount = false;
   document.cookie = "Account="+btoa("[]")+"; expires=Thu, 01 jan 2030 12:00:00 UTC; path=/";
@@ -98,7 +118,6 @@ if(getCookie("Account") == false){
   accountAverage = accountAverage/account.length;
   document.querySelector('#account-average').innerHTML = "Moyenne : "+accountAverage.toFixed(2)+" essais";
 }
-
 
 if(getCookie("TodaysGame") == false){
   var userPicksJson = JSON.stringify(userPicks);
@@ -152,6 +171,11 @@ document.addEventListener('DOMContentLoaded', () => {
   // Affichage du departement cible - jeu principal
   input.addEventListener('keydown', (event) => {
     if (event.key === "Enter") {
+      if(soundEnabled == "minecraft"){
+        var minecraft = document.createElement("audio");
+        minecraft.src = "./audio/sfx/minecraft/pop/1.mp3";
+        minecraft.play();
+      }
       const prompt = formatName(input.value);
       if(prompt == "/surtom"){
         location.href = "https://surtom.yvelin.net/"
@@ -182,6 +206,11 @@ document.addEventListener('DOMContentLoaded', () => {
           vendredi.play();
           return;
         } else {
+          if(soundEnabled == "minecraft"){
+            var minecraft = document.createElement("audio");
+            minecraft.src = "./audio/sfx/minecraft/damage.mp3";
+            minecraft.play();
+          }
           input.classList.add('invalid');
             input.value = "";
             input.placeholder = "Ce n'est pas vendredi !";
@@ -198,11 +227,29 @@ document.addEventListener('DOMContentLoaded', () => {
       if(prompt == "/patchnotes"){
         location.href = "https://github.com/BSCT-Tormod/dptdle#patch-notes";
       }
-      
+      if(prompt == "/sfx_minecraft"){
+        soundEnabled = "minecraft";
+        input.value = "";
+        return;
+      }      
+      if(prompt == "/sfx_off"){
+        soundEnabled = "off";
+        input.value = "";
+        return;
+      }
       departementValidator(prompt).then((res) => {
         if (res != false) { // Si le departement existe
+          if(gameMode == "orientation"){
+            colorDepartementOrientation(targetOrientation, res);
+            return;
+          }
           if (getCookie("isWin") != false){
           if(atob(getCookie("isWin")) == "true"){
+            if(soundEnabled == "minecraft"){
+              var minecraft = document.createElement("audio");
+              minecraft.src = "./audio/sfx/minecraft/damage.mp3";
+              minecraft.play();
+            }
             input.classList.add('invalid');
             input.value = "";
             input.placeholder = "Vous avez déjà trouvé le département du jour !";
@@ -223,6 +270,11 @@ document.addEventListener('DOMContentLoaded', () => {
               input.classList.remove('valid');
             }, 500);
           } else { // Si le departement a déjà été choisi
+            if(soundEnabled == "minecraft"){
+              var minecraft = document.createElement("audio");
+              minecraft.src = "./audio/sfx/minecraft/damage.mp3";
+              minecraft.play();
+            }
             input.classList.add('invalid');
             input.placeholder = "Département déjà choisi";
             setTimeout(() => {
@@ -232,17 +284,66 @@ document.addEventListener('DOMContentLoaded', () => {
           }
           input.value = "";
         } else { // Si le departement n'existe pas
+          if(soundEnabled == "minecraft"){
+            var minecraft = document.createElement("audio");
+            minecraft.src = "./audio/sfx/minecraft/damage.mp3";
+            minecraft.play();
+          }
           input.classList.add('shake');
           setTimeout(() => {
             input.classList.remove('shake');
           }, 700);
         }
       });
+    } else if (event.key === "Backspace") {
+     if (soundEnabled == "minecraft") {
+      if(document.querySelector("#input").value == ""){
+        var minecraft = document.createElement("audio");
+        minecraft.src = "./audio/sfx/minecraft/damage.mp3";
+      } else {
+        if(soundEnabled == "minecraft"){
+          var minecraft = document.createElement("audio");
+          minecraft.src = "./audio/sfx/minecraft/hit.mp3";
+          minecraft.play();
+        }
+      }
+    }
+    } else if (event.key === "Escape") {
+      if(soundEnabled == "minecraft"){
+        var minecraft = document.createElement("audio");
+        minecraft.src = "./audio/sfx/minecraft/damage.mp3";
+        minecraft.play();
+      }
+    } else if (event.key === " ") {
+      if(soundEnabled == "minecraft"){
+        const randomNumber = Math.floor(Math.random() * 2) + 1;
+        var minecraft = document.createElement("audio");
+        minecraft.src = "./audio/sfx/minecraft/pop/"+randomNumber+".mp3";
+        minecraft.play();
+      }
+    } else if (event.key === "/" || event.key === "Shift") {
+      if(soundEnabled == "minecraft"){
+        var minecraft = document.createElement("audio");
+        minecraft.src = "./audio/sfx/minecraft/villager.mp3";
+        minecraft.play();
+      }
+    }else {
+      if(soundEnabled == "minecraft"){
+        const randomNumber = Math.floor(Math.random() * 2) + 1;
+        var minecraft = document.createElement("audio");
+        minecraft.src = "./audio/sfx/minecraft/mine/"+randomNumber+".mp3";
+        minecraft.play();
+      }
     }
   });
 
   // Affichage de l'interface d'aide
   document.querySelector('#question').addEventListener('click', () => {
+    if(soundEnabled == "minecraft"){
+      var minecraft = document.createElement("audio");
+      minecraft.src = "./audio/sfx/minecraft/menu.mp3";
+      minecraft.play();
+    }
     document.querySelector('.prompt').style.transition = "filter 0s";
     document.querySelector('.map').style.transition = "filter 0s";
     document.querySelector('.help').style.visibility = "visible";
@@ -251,6 +352,11 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('.help').style.top = "50%";
   });
   document.querySelector('#cross-help').addEventListener('click', () => {
+    if(soundEnabled == "minecraft"){
+      var minecraft = document.createElement("audio");
+      minecraft.src = "./audio/sfx/minecraft/menu.mp3";
+      minecraft.play();
+    }
     document.querySelector('.prompt').style.transition = "filter 0.15s";
     document.querySelector('.map').style.transition = "filter 0.1s";
     document.querySelector('.help').style.visibility = "hidden";
@@ -261,6 +367,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Affichage de l'interface de compte
   document.querySelector('#user').addEventListener('click', () => {
+    if(soundEnabled == "minecraft"){
+      var minecraft = document.createElement("audio");
+      minecraft.src = "./audio/sfx/minecraft/menu.mp3";
+      minecraft.play();
+    }
     document.querySelector('.prompt').style.transition = "filter 0s";
     document.querySelector('.map').style.transition = "filter 0s";
     document.querySelector('.account').style.visibility = "visible";
@@ -269,6 +380,11 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('.account').style.top = "50%";
   });
   document.querySelector('#cross-account').addEventListener('click', () => {
+    if(soundEnabled == "minecraft"){
+      var minecraft = document.createElement("audio");
+      minecraft.src = "./audio/sfx/minecraft/menu.mp3";
+      minecraft.play();
+    }
     document.querySelector('.prompt').style.transition = "filter 0.15s";
     document.querySelector('.map').style.transition = "filter 0.1s";
     document.querySelector('.account').style.visibility = "hidden";
@@ -279,6 +395,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Affichage de l'interface d'aide
   document.querySelector('#cmd').addEventListener('click', () => {
+    if(soundEnabled == "minecraft"){
+      var minecraft = document.createElement("audio");
+      minecraft.src = "./audio/sfx/minecraft/menu.mp3";
+      minecraft.play();
+    }
     document.querySelector('.prompt').style.transition = "filter 0s";
     document.querySelector('.map').style.transition = "filter 0s";
     document.querySelector('.cmd-list').style.visibility = "visible";
@@ -287,6 +408,11 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('.cmd-list').style.top = "50%";
   });
   document.querySelector('#cross-cmd-list').addEventListener('click', () => {
+    if(soundEnabled == "minecraft"){
+      var minecraft = document.createElement("audio");
+      minecraft.src = "./audio/sfx/minecraft/menu.mp3";
+      minecraft.play();
+    }
     document.querySelector('.prompt').style.transition = "filter 0.15s";
     document.querySelector('.map').style.transition = "filter 0.1s";
     document.querySelector('.cmd-list').style.visibility = "hidden";
@@ -297,6 +423,11 @@ document.addEventListener('DOMContentLoaded', () => {
   
   // Fermeture de l'affichage des résultats
   document.querySelector('#cross-results').addEventListener('click', () => {
+    if(soundEnabled == "minecraft"){
+      var minecraft = document.createElement("audio");
+      minecraft.src = "./audio/sfx/minecraft/menu.mp3";
+      minecraft.play();
+    }
     document.querySelector('.prompt').style.transition = "filter 0.15s";
     document.querySelector('.map').style.transition = "filter 0.1s";
     document.querySelector('.results').style.visibility = "hidden";
@@ -305,6 +436,39 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('.results').style.top = "-50%";
   });
 
+
+  // Affichage du quiz
+  document.querySelector('#quiz').addEventListener('click', () => {    
+    if(!document.querySelector('#quiz').classList.contains('pointer')){
+      return;
+    }
+    if(soundEnabled == "minecraft"){
+      var minecraft = document.createElement("audio");
+      minecraft.src = "./audio/sfx/minecraft/menu.mp3";
+      minecraft.play();
+    }
+    document.querySelector('.prompt').style.transition = "filter 0s";
+    document.querySelector('.map').style.transition = "filter 0s";
+    document.querySelector('.quiz').style.visibility = "visible";
+    document.querySelector('.prompt').style.filter = "blur(5px)";
+    document.querySelector('.map').style.filter = "blur(5px)";
+    document.querySelector('.quiz').style.top = "50%";
+    mainQuiz();
+  });
+  // Fermeture de l'affichage du quiz
+  document.querySelector('#cross-quiz').addEventListener('click', () => {
+    if(soundEnabled == "minecraft"){
+      var minecraft = document.createElement("audio");
+      minecraft.src = "./audio/sfx/minecraft/menu.mp3";
+      minecraft.play();
+    }
+    document.querySelector('.prompt').style.transition = "filter 0.15s";
+    document.querySelector('.map').style.transition = "filter 0.1s";
+    document.querySelector('.quiz').style.visibility = "hidden";
+    document.querySelector('.prompt').style.filter = "blur(0)";
+    document.querySelector('.map').style.filter = "blur(0)";
+    document.querySelector('.quiz').style.top = "-50%";
+  });
   
   
 });
@@ -356,21 +520,28 @@ async function departementValidator(name) {
 
 /**
 * Permet de colorier un departement sur la carte selon la proximité avec le departement cible
-* Si le departement est le departement cible, il est colorié en vert et des confettis sont lancés
-* Si le departement est limitrophe, il est colorié en jaune
-* Si le departement est limitrophe d'un departement limitrophe, il est colorié en orange
 * Sinon, il est colorié en rouge
 *
 * @param {String} target Nom du departement cible 
 * @param {String} prompt Nom du departement à colorier
 */
 function colorDepartement(target, prompt) {
-  getDepartement(prompt)
-  .then(promptDpt => {
+  getDepartement(prompt).then(promptDpt => {
     return getDepartement(target).then(targetDpt => {
       getDistance(prompt, target).then(distance => {
+        getOrientation(prompt, target);
         if (distance == 0) { /* Vert */
+        if(soundEnabled == "minecraft"){
+          var minecraft = document.createElement("audio");
+          minecraft.src = "./audio/sfx/minecraft/xp.mp3";
+          minecraft.play();
+        }
+
+        document.querySelector('#quiz path').style.fill = "#1C274C";
+        document.querySelector('#quiz').classList.add('pointer');
+
         document.querySelector('#dep-'+promptDpt.numero).style.fill = "#53FF38";
+        
         const html = `
         <div class="user__inputs__content" style="border-color: #2E8743; color: #2E8743; box-shadow: #53FF38 inset 0px 0px 15px; font-size: 1.2em;">
         <p>${promptDpt.numero} - ${promptDpt.nom}</p>
@@ -507,7 +678,36 @@ function colorDepartement(target, prompt) {
 });
 }
   
-  
+function colorDepartementOrientation(targetOrientation, prompt) {
+  getDepartement(prompt).then(promptDpt => {
+    return getDepartement(targetOrientation).then(targetDpt => {
+      getDistance(prompt, targetOrientation).then(distance => {
+        getOrientation(prompt, targetOrientation).then(location => {
+          console.log("Orientation cible : "+location);
+          console.log("Distance cible : "+distance);
+          if (distance == 0) { /* Vert */
+            if(soundEnabled == "minecraft"){
+              var minecraft = document.createElement("audio");
+              minecraft.src = "./audio/sfx/minecraft/xp.mp3";
+              minecraft.play();
+            }
+            document.querySelector('#dep-'+promptDpt.numero).style.fill = "#53FF38";
+          } else {
+            document.querySelector('#dep-'+promptDpt.numero).style.fill = "#FF3D3D";
+            const html = `
+            <div class="user__inputs__content" style="border-color: #FF3D3D; color: #7e0000; box-shadow: #FF3D3D inset 0px 0px 15px; font-size: 1.2em;">
+            <p>${promptDpt.numero} - ${promptDpt.nom} ||</p><img src="./img/gps.svg" alt="gps" class="gps" style="transform: rotate(${location}deg);">
+            </div>
+            `;
+            document.querySelector('.user__inputs').innerHTML = html + document.querySelector('.user__inputs').innerHTML;
+            const input = document.querySelector('#input');
+            input.value = "";
+          }
+        });
+      });
+    });
+  });
+}
 
 /**
  * Formate un code de departement
@@ -598,6 +798,44 @@ function generateDepartement() {
 }
 
 /**
+ * Permet de générer un nombre complexe à partir de la date actuelle pour le mode orientation.
+ *
+ * @return {Number} Nombre complexe généré
+ */
+function generateDepartementOrientation() {
+  const today = new Date();
+  const dayOfMonth = today.getDate();
+  const month = today.getMonth() + 1; // Mois actuel (1-12)
+  const year = today.getFullYear();
+
+  // const today = new Date(2023, 9, 14); // Date de test
+  // const dayOfMonth = 4; // Jour fixe
+  // const month = 9; // Mois fixe (octobre)
+  // const year = 2023; // Année fixe
+
+  // Formule mathématique complexe
+  var result = (
+    ((dayOfMonth * 12 + month * 41 + year * 6) % 38) + 1 
+  ) * Math.tan(dayOfMonth) * Math.sin(month) * Math.cos(year)*1000%95; // Nombre entre 1 et 38 a modifier selon les departements finis dans la bd
+  
+  result = Math.abs(result); // Valeur absolue
+  result = Math.round(result); // Arrondi
+  if(result == 20){
+    if(Math.random()>0.5){
+      result = "2A";
+    } else {
+      result = "2B";
+    }
+    return result;
+  }
+  result = result.toString();   
+  result = formatDepartement(result);
+
+
+  return result;
+}
+
+/**
  * Cette fonction permet de calculer la distance entre deux points
  *
  * @param {String} dpt1 Premier departement
@@ -612,6 +850,279 @@ async function getDistance(dpt1, dpt2){
   return distance;
 }
 
+
+/**
+ * Permet de récupérer l'angle de rotation à appliquer à une flèche par rapport à une autre.
+ *
+ * @param {String} dpt1 Département donné
+ * @param {String} dpt2 Département cible
+ * @return {Number} Angle de rotation en degrés à appliquer à une flèche.
+ */
+async function getOrientation(dpt1, dpt2) {
+  dpt1 = await getDepartement(dpt1);
+  dpt2 = await getDepartement(dpt2);
+
+  // Calcul de la différence de latitude et de longitude entre les départements
+  var latDiff = dpt2.pos[0] - dpt1.pos[0];
+  var lonDiff = dpt2.pos[1] - dpt1.pos[1];
+
+  // Inverser la logique de l'axe X
+  lonDiff = -lonDiff;
+
+  // Calcul de l'angle entre les départements en radians
+  var angle = Math.atan2(latDiff, lonDiff);
+
+  // Convertir l'angle en degrés
+  var rotation = (angle * 180) / Math.PI;
+
+  return rotation;
+}
+
+
+
+/**
+ * Cette fonction permet de gérer le quiz
+ *
+ */
+function mainQuiz(){
+  getDepartement(dptQuiz).then(dpt => {
+    document.querySelector('#quiz-score').innerHTML = "Score : <strong>" + score+"</strong>";
+    document.querySelector('#quiz-best-score').innerHTML = "Meilleur score : <strong>" + atob(getCookie("Quiz"))+"</strong>";
+    if(dpt.pronom == "le"){
+      document.querySelector('#quiz-question').innerHTML = "Quel est le numéro du <em><strong>"+dpt.nom+"</strong></em> ?";
+    } else if (dpt.pronom == "l'"){
+      document.querySelector('#quiz-question').innerHTML = "Quel est le numéro de l'<em><strong>"+dpt.nom+"</strong></em> ?";
+    } else if (dpt.pronom == "la"){
+      document.querySelector('#quiz-question').innerHTML = "Quel est le numéro de la <em><strong>"+dpt.nom+"</strong></em> ?";
+    } else {
+      document.querySelector('#quiz-question').innerHTML = "Quel est le numéro des <em><strong>"+dpt.nom+"</strong></em> ?";
+    }
+  });
+}
+
+function displayCashAnswer(){
+  if(soundEnabled == "minecraft"){
+    var minecraft = document.createElement("audio");
+    minecraft.src = "./audio/sfx/minecraft/menu.mp3";
+    minecraft.play();
+  }
+  document.querySelector('.answer-cash').style.display = "flex";
+  document.querySelector('.answer-options').style.display = "none";
+  document.querySelector('#answer-cash-prompt').value = "";
+  document.querySelector('#answer-cash-prompt').focus();
+}
+
+function displayButtonAnswer(mode) {
+  if(soundEnabled == "minecraft"){
+    var minecraft = document.createElement("audio");
+    minecraft.src = "./audio/sfx/minecraft/menu.mp3";
+    minecraft.play();
+  }
+  
+  const values = [parseInt(dptQuiz)];
+  
+  if(mode == "carre"){
+    document.querySelector('.answer-carre').style.display = 'flex';
+    document.querySelector('.answer-options').style.display = 'none';
+  while (values.length < 4) {
+    const randomValue = Math.floor(Math.random() * 16) + (dptQuiz - 5);
+
+    if (randomValue > 0 && !values.includes(randomValue) && randomValue < 96) {
+      values.push(randomValue);
+    }
+  }
+
+  shuffleArray(values);
+
+  document.querySelector('#answer-a').innerHTML = formatDepartement(values[0]);
+  document.querySelector('#answer-b').innerHTML = formatDepartement(values[1]);
+  document.querySelector('#answer-c').innerHTML = formatDepartement(values[2]);
+  document.querySelector('#answer-d').innerHTML = formatDepartement(values[3]);
+
+  document.querySelector('#answer-a').value = values[0];
+  document.querySelector('#answer-b').value = values[1];
+  document.querySelector('#answer-c').value = values[2];
+  document.querySelector('#answer-d').value = values[3];
+
+  } else if (mode == "50-50") {
+    document.querySelector('.answer-50-50').style.display = "flex";
+    document.querySelector('.answer-options').style.display = "none";
+    while (values.length < 2) {
+      const randomValue = Math.floor(Math.random() * 16) + (dptQuiz - 5);
+  
+      if (randomValue > 0 && !values.includes(randomValue) && randomValue < 96) {
+        values.push(randomValue);
+      }
+    }
+  
+    shuffleArray(values);
+  
+    document.querySelector('#answer-1').innerHTML = formatDepartement(values[0]);
+    document.querySelector('#answer-2').innerHTML = formatDepartement(values[1]);
+  
+    document.querySelector('#answer-1').value = values[0];
+    document.querySelector('#answer-2').value = values[1];
+  }
+}
+
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+}
+
+async function answerCash(){
+  const input = document.querySelector('#answer-cash-prompt').value;
+  if(input == ""){
+    return;
+  }
+  if(input == dptQuiz){
+    if(soundEnabled == "minecraft"){
+      var minecraft = document.createElement("audio");
+      minecraft.src = "./audio/sfx/minecraft/xp.mp3";
+      minecraft.play();
+    }
+    score += 5;
+    document.querySelector('#answer-cash-button').classList.add('correct-answer');
+    document.querySelector('#answer-cash-button').innerHTML = "Correct";
+    await wait(500);
+    document.querySelector('#quiz-score').innerHTML = "Score : <strong>" + score+"</strong>";
+    document.querySelector('.answer-cash').style.display = "none";
+    document.querySelector('.answer-options').style.display = "flex";
+    document.querySelector('#answer-cash-prompt').value = "";
+    document.querySelector('#answer-cash-button').classList.remove('correct-answer');
+    document.querySelector('#answer-cash-button').innerHTML = "Valider";
+    if(score > atob(getCookie("Quiz"))){
+      document.cookie = "Quiz="+btoa(score)+"; expires=01 jan 2030 12:00:00 UTC; path=/";
+      document.querySelector('#quiz-best-score').innerHTML = "Meilleur score : <strong>" + score+"</strong>";
+    }
+  } else {
+    if(soundEnabled == "minecraft"){
+      var minecraft = document.createElement("audio");
+      minecraft.src = "./audio/sfx/minecraft/damage.mp3";
+      minecraft.play();
+    }
+    score = 0;
+    document.querySelector('#answer-cash-button').classList.add('wrong-answer');
+    document.querySelector('#answer-cash-button').innerHTML = "Faux";
+    await wait(500);
+    document.querySelector('#quiz-score').innerHTML = "Score : <strong>" + score+"</strong>";
+    document.querySelector('.answer-cash').style.display = "none";
+    document.querySelector('.answer-options').style.display = "flex";
+    document.querySelector('#answer-cash-prompt').value = "";
+    document.querySelector('#answer-cash-button').classList.remove('wrong-answer');
+    document.querySelector('#answer-cash-button').innerHTML = "Valider";
+  }
+  dptQuiz = Math.floor(Math.random() * 95) + 1;
+  dptQuiz = formatDepartement(dptQuiz.toString());
+  mainQuiz();
+}
+
+async function answerButton(button){
+  const carre = ["a", "b", "c", "d"];
+  const input = document.querySelector('#answer-'+button);
+  carre.forEach(option => {
+    document.querySelector('#answer-'+option).classList.add('unselected-answer');
+  });
+  document.querySelector('#answer-1').classList.add('unselected-answer');
+  document.querySelector('#answer-2').classList.add('unselected-answer');
+  if(input.value == dptQuiz){
+    if(soundEnabled == "minecraft"){
+      var minecraft = document.createElement("audio");
+      minecraft.src = "./audio/sfx/minecraft/xp.mp3";
+      minecraft.play();
+    }
+    if(carre.includes(button)){
+      score += 3;
+      document.querySelector('#answer-'+button).classList.remove('unselected-answer');
+      document.querySelector('#answer-'+button).classList.add('correct-answer');
+      await wait(500);
+      document.querySelector('#answer-'+button).classList.remove('correct-answer');
+      document.querySelector('#answer-'+button).classList.add('unselected-answer');
+    } else {
+      score += 1;
+      document.querySelector('#answer-'+button).classList.remove('unselected-answer');
+      document.querySelector('#answer-'+button).classList.add('correct-answer');
+      await wait(500);
+      document.querySelector('#answer-'+button).classList.remove('correct-answer');
+      document.querySelector('#answer-'+button).classList.add('unselected-answer');
+    }
+    document.querySelector('#quiz-score').innerHTML = "Score : <strong>" + score+"</strong>";
+    input.parentNode.style.display = "none";
+    document.querySelector('.answer-options').style.display = "flex";
+    if(score > atob(getCookie("Quiz"))){
+      document.cookie = "Quiz="+btoa(score)+"; expires=01 jan 2030 12:00:00 UTC; path=/";
+      document.querySelector('#quiz-best-score').innerHTML = "Meilleur score : <strong>" + score+"</strong>";
+    }
+  } else {
+    if(soundEnabled == "minecraft"){
+      var minecraft = document.createElement("audio");
+      minecraft.src = "./audio/sfx/minecraft/damage.mp3";
+      minecraft.play();
+    }
+    document.querySelector('#answer-'+button).classList.remove('unselected-answer');
+    document.querySelector('#answer-'+button).classList.add('wrong-answer');
+    await wait(500);
+    document.querySelector('#answer-'+button).classList.remove('wrong-answer');
+    document.querySelector('#answer-'+button).classList.add('unselected-answer');
+    score = 0;
+    document.querySelector('#quiz-score').innerHTML = "Score : <strong>" + score+"</strong>";
+    input.parentNode.style.display = "none";
+    document.querySelector('.answer-options').style.display = "flex";
+  }
+  carre.forEach(option => {
+    document.querySelector('#answer-'+option).classList.remove('unselected-answer');
+  });
+  document.querySelector('#answer-1').classList.remove('unselected-answer');
+  document.querySelector('#answer-2').classList.remove('unselected-answer');
+  dptQuiz = Math.floor(Math.random() * 95) + 1;
+  dptQuiz = formatDepartement(dptQuiz.toString());
+  mainQuiz();
+}
+
+document.querySelector('#answer-cash-prompt').addEventListener('keyup', (e) => {
+  if(e.key === "Enter"){
+    if(soundEnabled == "minecraft"){
+      const randomNumber = Math.floor(Math.random() * 2) + 1;
+      var minecraft = document.createElement("audio");
+      minecraft.src = "./audio/sfx/minecraft/pop/"+randomNumber+".mp3"; 
+      minecraft.play();     
+    }
+    answerCash();
+  } else if (e.key === " "){
+    if(soundEnabled == "minecraft"){
+      const randomNumber = Math.floor(Math.random() * 2) + 1;
+      var minecraft = document.createElement("audio");
+      minecraft.src = "./audio/sfx/minecraft/pop/"+randomNumber+".mp3"; 
+      minecraft.play();     
+    }
+  } else if (e.key === "Backspace"){
+    if (soundEnabled == "minecraft") {
+      var minecraft = document.createElement("audio");
+      minecraft.src = "./audio/sfx/minecraft/damage.mp3";
+    }
+  } else if (event.key === "Escape") {
+    if(soundEnabled == "minecraft"){
+      var minecraft = document.createElement("audio");
+      minecraft.src = "./audio/sfx/minecraft/damage.mp3";
+      minecraft.play();
+    }
+  } else if (event.key === "/" || event.key === "Shift") {
+    if(soundEnabled == "minecraft"){
+      var minecraft = document.createElement("audio");
+      minecraft.src = "./audio/sfx/minecraft/villager.mp3";
+      minecraft.play();
+    }
+  }else {
+    if(soundEnabled == "minecraft"){
+      const randomNumber = Math.floor(Math.random() * 2) + 1;
+      var minecraft = document.createElement("audio");
+      minecraft.src = "./audio/sfx/minecraft/mine/"+randomNumber+".mp3";
+      minecraft.play();
+    }
+  }
+});
 
 /**
  * Permet d'attendre un certain temps
@@ -653,12 +1164,22 @@ function conffetiLaunch(){
         });
 }
 
+/**
+ * Cette fonction permet de copier le résultat dans le presse papier.
+ *
+ */
 function share() {
   navigator.clipboard.writeText("J'ai trouvé le département du jour en " + userPicks.length + " essais !\nhttps://ouipouet.tech/");
+
   alert("Copié !");
 }
 
-
+/**
+ * Permet de récupérer le contenu d'un cookie. Celui ci peut etre chiffré et doit etre déchifré si besoin.
+ *
+ * @param {String} value Nom du cookie a retourner
+ * @return {*} Contenu du cookie, false si le cookie n'existe pas.
+ */
 function getCookie(value){
   var cookies = document.cookie.split(';');
   for(var i = 0; i < cookies.length; i++){

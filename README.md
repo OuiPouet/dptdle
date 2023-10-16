@@ -37,6 +37,32 @@ Ce jeu est un projet personnel réalisé pendant mon temps libre. J'ai eu envie 
 
 ## Patch notes
 
+### Version 1.3.0
+- Ajout du mode quiz ! Le mode quiz est un mode de jeu dans lequel le joueur doit trouver le numéro d'un département donné. Le joueur dispose de 3 mode de réponses inspiré de l'émission [Tout le monde veux prendre sa place](https://fr.wikipedia.org/wiki/Tout_le_monde_veut_prendre_sa_place) qui donnent plus ou moins de points selon la difficulté :
+    - Cash : Le joueur doit saisir le numéro du département dans le champ de texte. 5 points.
+    - Carré : Le joueur a le choix entre 4 numéros de département. 3 points.
+    - 50-50 : Le joueur a le choix entre 2 numéros de département. 1 point.
+Le quiz est uniquement disponible lorsque le département du jour a été trouvé. Faire une erreur ou fermer le quiz fait perdre tous les points. Le meilleur score au quiz est sauvegardé dans le compte et affiché dans l'interface de jeu.
+- Ajout des sounds effects Minecraft :
+    - Pose d'un bloc lorsqu'une touche est pressée.
+    - Casse d'un bloc lorsque entrée ou espace est pressée.
+    - Hit si backspace est pressée.
+    - Damage si le département est faux, rouge ou autre situation invalide.
+    - Bruit de vilageois si shift ou slash est pressée.
+    - Bruit d'interface lorsqu'un menu est préssé.
+Les sons peuvent etre activés ou désactivés avec des commandes spéciales.
+- Rajout du meilleur score au quiz dans le compte.
+- Rajout d'explications sur le quiz dans l'aide.
+- Ajout de l'attribut "pronom" dans la bd pour chaque département, il contient le pronom du département.
+- Ajout de commandes :
+    - /sfx_minecraft : Active les sons Minecraft (enabled par défaut).
+    - /sfx_off : Désactive les sons.
+- Correction de bugs et améliorations :
+    - Ajout de la variable pos pour la seine maritime dans la bd.
+    - Correction de la position de l'Aude.
+    - Redirection directe sur le patch notes sur le lien depuis le panneau aide.
+    - Amélioration de l'esthétique du bouton partager.
+
 ### Version 1.2.51
 - Ajout d'un compteur de Streak dans le compte. La Streak est le nombre de jours consécutifs ou le joueur a trouvé le département cible. Louper un jour fera rénitialiser la Streak.
 - Ajout du nombre total de départements du jour trouvés dans le compte.
