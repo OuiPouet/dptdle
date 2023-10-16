@@ -20,8 +20,8 @@ yesterday.setDate(yesterday.getDate() - 1);
 yesterday = yesterday.toLocaleDateString('fr-FR', options);
 
 
-// const target = generateDepartement();
-const target = "21"; // Ligne de test
+const target = generateDepartement();
+// const target = "21"; // Ligne de test
 
 
 //Gestion des cookies
